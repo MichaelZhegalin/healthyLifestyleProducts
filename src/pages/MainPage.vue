@@ -1,5 +1,5 @@
 <template>
-    <h1 class="sampStyleScss">Начальная сборка Vue3(Vite) + pinia + router + bootstrap5 + vuetify + scss</h1>
+    <v-btn @click="$router.push('day')">перейти на странцу дня</v-btn>
 </template>
 
 <script>
