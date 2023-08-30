@@ -1,6 +1,7 @@
 import MainPage from '../pages/MainPage.vue'
 import DayPage from '../pages/DayPage.vue'
 import SelectedMealPage from '../pages/SelectedMealPage.vue'
+import UsersListPage from '../pages/UsersListPage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -23,12 +24,14 @@ const routes = [
     {
         path: '/day/:meal',
         component: SelectedMealPage
+    },
+    {
+        path: '/users',
+        component: UsersListPage
     }
 ]
-
 const router = createRouter({
     routes,
     history: createWebHistory()
 })
-
 export default router

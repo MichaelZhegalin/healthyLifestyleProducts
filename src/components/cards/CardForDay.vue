@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-auto" max-width="344">
+    <v-card class="mx-auto" max-width="344" min-width="200">
         <v-img
             :src="imageURL"
             class="align-end"
@@ -9,31 +9,34 @@
         >
             <v-card-title class="text-white">{{ title }}</v-card-title>
         </v-img>
-
-        <v-card-subtitle style="margin-top:15px ; font-size: 16px; font-style: italic;">
+        <v-card-subtitle class="card-subtitle">
             "{{ subtitle }}"
         </v-card-subtitle>
-
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn @click="$router.push(`${routerPush}`)" color="green" style="font-weight: 500;">Открыть</v-btn>
+            <v-btn @click="$router.push(`${routerPush}`)" color="green" class="btn">Открыть</v-btn>
         </v-card-actions>
     </v-card>
 </template>
 
 <script>
-export default {
-
-    props: {
-        title: String,
-        imageURL: String,
-        subtitle: String,
-        routerPush: String,
+    export default {
+        props: {
+            title: String,
+            imageURL: String,
+            subtitle: String,
+            routerPush: String,
+        }
     }
+    </script>
 
-}
-</script>
-
-<style>
-
+<style scoped lang="scss">
+    .btn{
+        font-weight: 500;
+    }
+    .card-subtitle{
+        margin-top:15px; 
+        font-size: 16px; 
+        font-style: italic;
+    }
 </style>

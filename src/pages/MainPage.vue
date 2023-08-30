@@ -3,17 +3,14 @@
 </template>
 
 <script>
-import { useSampleStore } from '../store/sampleStore';
-
-export default {
-
-    data(){
-        return{
-            sampleStore: useSampleStore()
+    import { useSampleStore } from '../store/sampleStore';
+    export default {
+        data(){
+            return{
+                sampleStore: useSampleStore()
+            }
         }
     }
-
-}
 </script>
 
 <style lang="scss" scoped>
