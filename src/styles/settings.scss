@@ -1,0 +1,17 @@
+$bgColor: red;
+$bodyBackground: url("/src/img/app-background.jpg") no-repeat;
+
+.app-background{
+    background: $bodyBackground;
+    background-size: cover;
+}
+
+.sampStyleScss{
+    background-color: $bgColor;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
