@@ -8,10 +8,10 @@
             <v-container>
                 <v-row justify="center">
                     <v-col cols="6">
-                        <v-btn class="text-white bg-green-lighten-2" block @click="isShowDialog = false">Сохранить</v-btn>
+                        <v-btn class="text-white bg-green-lighten-2" block @click="saveDialogForm">Сохранить</v-btn>
                     </v-col>
                     <v-col cols="6">
-                        <v-btn class="text-white bg-red-lighten-2" block @click="isShowDialog = false">Закрыть</v-btn>
+                        <v-btn class="text-white bg-red-lighten-2" block @click="closeDialogForm">Закрыть</v-btn>
                     </v-col>
                 </v-row>
             </v-container>  
@@ -33,7 +33,12 @@
         },
         methods:{
             saveDialogForm(){
-                this.$emit('saveDialogForm', formRes)
+                this.isShowDialog = false;
+                this.$emit('saveDialogForm');
+            },
+            closeDialogForm(){
+                this.isShowDialog = false;
+                this.$emit('closeDialogForm');
             }
         },
         computed: {

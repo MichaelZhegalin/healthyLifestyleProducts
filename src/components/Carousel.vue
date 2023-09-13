@@ -37,13 +37,13 @@
                         i = 3;
                     }
                 }
-                return listCard
+                return listCard;
             }
         },
         computed: {
             cols() {
-                const { lg, md } = this.$vuetify.display
-                return lg ? 4 : md ? 4 : 12
+                const { lg, md, sm } = this.$vuetify.display;
+                return lg ? 4 : md ? 4 : sm ? 6 : 12;
             },
         },
     }
