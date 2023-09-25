@@ -7,7 +7,8 @@ export const useSampleStore = defineStore('sampleStore', {
     getters: {},
     actions: {
         test(){
-            this.testState += 1;
+            // this.testState += 1;
+            console.log("привет мир")
         }
     }
 })

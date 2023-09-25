@@ -28,15 +28,22 @@
             <v-row justify="center">
                 <v-col class="card_btns-col" cols="6">
                     <v-btn 
-                        @click="$router.push(`${routerPush}`)"  
+                        @click="setActiveUser" 
+                        v-if="!isActive" 
                         class="btn bg-green-lighten-2 text-white"
                     >
                         Выбрать
                     </v-btn>
+                    <v-btn 
+                        v-else
+                        disabled
+                    >
+                        Выбран
+                    </v-btn>
                 </v-col>
                 <v-col class="card_btns-col" cols="6">
                     <v-btn 
-                        @click="$router.push(`${routerPush}`)" 
+                        @click="deleteUser" 
                         class="btn bg-red-lighten-2 text-white"
                     >
                     Удалить
@@ -48,21 +55,37 @@
 </template>
 
 <script>
+import { useUserInfo } from '@/store/userInfoModule'
+
     export default {
         props: {
-            title: String,
             imageURL: String,
-            subtitle: String,
-            routerPush: String,
+            id: String
         },
-        data: () => ({
+        data: (props) => ({
             items: [
-                { text: 'Пол', icon: 'mdi-gender-male-female' },
-                { text: 'Возраст', icon: 'mdi-clock' },
-                { text: 'Рост', icon: 'mdi-human-male-height-variant' },
-                { text: 'Вес', icon: 'mdi-scale-bathroom' },
+                { text: `Пол: ${useUserInfo().users[props.id].gender}`, icon: 'mdi-gender-male-female' },
+                { text: `Возраст: ${useUserInfo().users[props.id].age}`, icon: 'mdi-clock' },
+                { text: `Рост: ${useUserInfo().users[props.id].height} см.`, icon: 'mdi-human-male-height-variant' },
+                { text: `Вес: ${useUserInfo().users[props.id].weight} кг.`, icon: 'mdi-scale-bathroom' },
             ],
+            title: useUserInfo().users[props.id].userName,
         }),
+        methods: {
+            setActiveUser(){
+                useUserInfo().setActiveUser(this.id)
+            },
+            deleteUser(){
+                useUserInfo().deleteUser(this.id)
+            }
+        },
+        computed:{
+            isActive: {
+                get(){
+                    return useUserInfo().users[this.id].isActive;
+                }
+            }
+        }
 
     }
 </script>

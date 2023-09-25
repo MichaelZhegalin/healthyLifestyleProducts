@@ -4,32 +4,41 @@
             height="400"
             hide-delimiters
             show-arrows="hover"
+            v-if="ObjWithInfoTest.length !== 0"
         >
-            <v-carousel-item v-for="i in Math.ceil(slides.length/3)" :key="i">
+            <v-carousel-item v-for="i in Math.ceil(ObjWithInfoTest.length/3)" :key="i">
                 <v-sheet class="carousel-sheet fill-height">
                     <v-container class="fill-height">
                         <v-row justify="center" align="center">
                             <v-col :cols="cols" v-for="slide in listCardForShow(i - 1)" :key="slide">
-                                <slot></slot>
+                                <slot :cardId="slide"></slot>
                             </v-col>
                         </v-row>
                     </v-container>
                 </v-sheet>
             </v-carousel-item>
         </v-carousel>
+        <div v-else>
+            Пока нет информации
+        </div>
     </div>
 </template>
 
 <script>
     export default {
+        props:{
+            ObjWithInfo: Object,
+        },
         data() {
             return {
-                slides: ['First', 'Second', 'First', 'Second', 'First', 'Second'],
+                slides: [],
+                saveNumber: undefined
             }
         },
         methods: {
             listCardForShow(number){
                 let listCard = [];
+                this.saveNumber = number
                 for(let i = 0; i < 3; i++){
                     if (this.slides[i + 3*number] !== undefined){
                         listCard[i] = this.slides[i + 3*number];
@@ -43,8 +52,16 @@
         computed: {
             cols() {
                 const { lg, md, sm } = this.$vuetify.display;
-                return lg ? 4 : md ? 4 : sm ? 6 : 12;
+                return lg ? 4 * 4 - this.listCardForShow(this.saveNumber).length 
+                       : md ? 4 * 4 - this.listCardForShow(this.saveNumber).length 
+                       : sm ? 6 : 12;
             },
+            ObjWithInfoTest: {
+                get(){
+                    this.slides = Object.keys(this.ObjWithInfo);
+                    return Object.keys(this.ObjWithInfo);
+                },
+            }
         },
     }
 </script>

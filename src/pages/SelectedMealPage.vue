@@ -7,13 +7,12 @@
                 </div>
             </v-col>
             <v-col class="mealPage_col-center" cols="12">
-                <carousel>
-                    <card-for-day 
-                        title="Завтрак"
-                        subtitle="Съешь сам"
-                        imageURL="../src/img/breakfast.jpg"
-                        routerPush="day/breakfast"
-                    />
+                <carousel :ObjWithInfo="ObjWithInfo">
+                    <template v-slot:default="cardSlot">
+                        <card-for-user 
+                            :id="cardSlot.cardId"
+                        />
+                    </template>   
                 </carousel>
             </v-col>
             <v-col class="mealPage_col-center" cols="12">
@@ -26,11 +25,13 @@
 <script>
     import Carousel from '../components/Carousel.vue';
     import CardForDay from '../components/cards/CardForDay.vue';
+    import { useFoodInfo } from '@/store/foodInfoModule';
     export default {
         components: {Carousel, CardForDay},
         data(){
             return{
                 title: undefined,
+                ObjWithInfo: useFoodInfo().foodInfo,
             }
         },
         mounted(){

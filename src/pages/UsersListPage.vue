@@ -26,13 +26,12 @@
                 <users-page-navbar/>
             </v-col>
             <v-col class="usersList_col-center" cols="12">
-                    <carousel>
-                        <card-for-user 
-                            title="Завтрак"
-                            subtitle="Съешь сам"
-                            imageURL="../src/img/breakfast.jpg"
-                            routerPush="day/breakfast"
-                        />
+                    <carousel :ObjWithInfo="ObjWithInfoTest">
+                        <template v-slot:default="cardSlot">
+                            <card-for-user 
+                                :id="cardSlot.cardId"
+                            />
+                        </template>   
                     </carousel>
             </v-col>
             <v-col class="usersList_col-center" cols="12">
@@ -48,6 +47,7 @@
     import CardForUser from '../components/cards/CardForUser.vue'
     import MyDialog from '../components/dialog/MyDialog.vue'
     import AddUserForm from '../components/AddUserForm.vue'
+    import {useUserInfo} from '../store/userInfoModule'
 
     export default {
         components: { UsersPageNavbar, Carousel, CardForUser, MyDialog, AddUserForm},
@@ -59,7 +59,8 @@
                 height: '',
                 weight: '',
                 genderProp: '',
-                genderItem: ["Мужчина", "Женщина"]
+                genderItem: ["Мужчина", "Женщина"],
+                ObjWithInfoTest: useUserInfo().users
             }
         },
         methods: {
@@ -82,6 +83,15 @@
                 this.genderProp = value;
             },
             saveDialogForm(){
+                useUserInfo().setNewUser({
+                    userName: this.userName,
+                    age: this.age,
+                    height: this.height,
+                    weight: this.weight,
+                    gender: this.genderProp,
+                    id: Date.now()
+                });
+                this.ObjWithInfoTest = useUserInfo().users;
                 this.userName = '';
                 this.age = '';
                 this.height = '';
