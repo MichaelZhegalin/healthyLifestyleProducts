@@ -3,11 +3,21 @@ import { useUserInfo } from "./userInfoModule";
 
 export const useFoodInfo = defineStore('foodInfo', {
     state: () => ({
+        Food: class {
+            constructor(foodInfo){
+                this.foodName = foodInfo.foodName;
+                this.calories = foodInfo.calories;
+                this.proteins = foodInfo.proteins;
+                this.fats = foodInfo.fats;
+                this.carbs = foodInfo.carbs;
+                this.id = foodInfo.id;
+            }
+        },
         activeUser: '',
         selectedDate: '',
-        foodInfo: {
+        foods: {
             1: {
-                name: "Arome Framboise",
+                foodName: "Arome Framboise",
                 calories: "37 кКал",
                 proteins: "4,3 г",
                 fats: "0,1 г",
@@ -15,7 +25,7 @@ export const useFoodInfo = defineStore('foodInfo', {
                 id: 1
             },
             2: {
-                name: "Cannelloni",
+                foodName: "Cannelloni",
                 calories: "324 кКал",
                 proteins: "12 г",
                 fats: "1 г",
@@ -27,6 +37,12 @@ export const useFoodInfo = defineStore('foodInfo', {
     }),
     getters: {},
     actions: {
+        setNewFood(foodInfo){
+            this.foods[foodInfo.id] = new this.Food(foodInfo);
+        },
+        deleteFood(id){
+            delete this.foods[id];
+        },
         setEatFoodInfoForNewDay(date){
             if(this.eatFoodInfo[date] === undefined){
                 this.eatFoodInfo[date] = {

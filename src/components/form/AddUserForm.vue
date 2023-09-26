@@ -77,7 +77,6 @@
                 this.$emit('setWeight', event.target.value);
             },
             setGender(event){
-                console.log('here')
                 this.$emit('setGender', event.target.value);
             }
         },

@@ -35,7 +35,7 @@
                     </carousel>
             </v-col>
             <v-col class="usersList_col-center" cols="12">
-                <v-btn @click="ShowDialog" class="bg-green-lighten-2 text-white" size="x-large">Добавить</v-btn>
+                <v-btn @click="showDialog" class="bg-green-lighten-2 text-white" size="x-large">Добавить</v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -46,7 +46,7 @@
     import Carousel from '../components/Carousel.vue'
     import CardForUser from '../components/cards/CardForUser.vue'
     import MyDialog from '../components/dialog/MyDialog.vue'
-    import AddUserForm from '../components/AddUserForm.vue'
+    import AddUserForm from '../components/form/AddUserForm.vue'
     import {useUserInfo} from '../store/userInfoModule'
 
     export default {
@@ -64,7 +64,7 @@
             }
         },
         methods: {
-            ShowDialog(){
+            showDialog(){
                 this.isShowDialog = true;
             },
             setUserName(value){
