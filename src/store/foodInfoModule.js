@@ -35,7 +35,17 @@ export const useFoodInfo = defineStore('foodInfo', {
         },
         eatFoodInfo: {}
     }),
-    getters: {},
+    getters: {
+        getMorningFood(){
+            return this.eatFoodInfo[this.selectedDate].morning
+        },
+        getAfternoonFood(){
+            return this.eatFoodInfo[this.selectedDate].afternoon
+        },
+        getEveningFood(){
+            return this.eatFoodInfo[this.selectedDate].evening
+        },
+    },
     actions: {
         setNewFood(foodInfo){
             this.foods[foodInfo.id] = new this.Food(foodInfo);
@@ -46,25 +56,29 @@ export const useFoodInfo = defineStore('foodInfo', {
         setEatFoodInfoForNewDay(date){
             if(this.eatFoodInfo[date] === undefined){
                 this.eatFoodInfo[date] = {
-                    morning: [],
-                    afternoon: [],
-                    evening: []
+                    morning: {},
+                    afternoon: {},
+                    evening: {}
                 }
             };
             this.selectedDate = date;
-            console.log(this.eatFoodInfo, this.selectedDate);
+            useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
-        setMorningFood(date, food){
-            this.eatFoodInfo[date].morning.push(food);
-            useUserInfo().setFoodInfo(this.eatFoodInfo[date], this.activeUser);
+        setMorningFood(date, food, id){
+            this.eatFoodInfo[date].morning[id] = food;
+            useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
         setAfternoonFood(date, food){
-            this.eatFoodInfo[date].afternoon.push(food);
-            useUserInfo().setFoodInfo(this.eatFoodInfo[date], this.activeUser);
+            this.eatFoodInfo[date].afternoon[id] = food;
+            useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
         setEveningFood(date, food){
-            this.eatFoodInfo[date].evening.push(food);
-            useUserInfo().setFoodInfo(this.eatFoodInfo[date], this.activeUser);
+            this.eatFoodInfo[date].evening[id] = food;
+            useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
+        },
+        deleteEatFood(date, timesOfDay, eatFoodId){
+            delete this.eatFoodInfo[date][timesOfDay][eatFoodId];
+            useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
         setActiveUserForFoodInfoModule(activeUserId){
             this.activeUser = activeUserId;

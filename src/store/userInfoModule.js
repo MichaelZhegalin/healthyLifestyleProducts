@@ -22,7 +22,7 @@ export const useUserInfo = defineStore('userInfoModule', {
                 height: 180,
                 weight: 65,
                 gender: "Мужчина",
-                isActive: true,
+                isActive: false,
                 id: 1,
                 foodInfo: undefined,
             }
