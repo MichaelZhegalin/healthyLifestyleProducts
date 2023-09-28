@@ -22,14 +22,14 @@
                 </div>
             </v-col>
             <v-col class="mealPage_col-center" cols="12">
-                <carousel :ObjWithInfo="ObjWithInfo">
+                <carousel :ObjWithInfo="infoAboutEatFood">
                     <template v-slot:default="cardSlot">
                         <card-for-eat-food
                             :id="cardSlot.cardId"
                             :activeUser="activeUser"
-                            :timesOfDay="`morning`"
+                            :timesOfDay="timesOfDay"
                             :selectedDate="selectedDate"
-                            :eatFood="ObjWithInfo"
+                            :eatFood="infoAboutEatFood"
                         />
                     </template>   
                 </carousel>
@@ -53,8 +53,9 @@
         data(){
             return{
                 title: undefined,
-                ObjWithInfo: {},
                 timesOfDay: '',
+                timesOfDayForGetters: '',
+                timesOfDayForSet: '',
                 activeUser: useFoodInfo().activeUser,
                 selectedDate: useFoodInfo().selectedDate,
                 foodNameProp: '',
@@ -74,7 +75,7 @@
                 this.isShowDialog = true;
             },
             saveDialogForm(){
-                useFoodInfo().setMorningFood(
+                useFoodInfo()[this.timesOfDayForSet](
                     this.selectedDate,
                     {
                         foodName: this.foodNameProp,
@@ -98,13 +99,30 @@
         mounted(){
             if (this.$route.params.meal.localeCompare('breakfast') === 0){
                 this.title = 'Завтрак';
-                this.ObjWithInfo = useFoodInfo().getMorningFood;
+                this.timesOfDay = 'morning'
+                this.timesOfDayForGetters = 'getMorningFood'
+                this.timesOfDayForSet = 'setMorningFood'
             }else if (this.$route.params.meal.localeCompare('lunch') === 0){
                 this.title = 'Обед';
-                this.ObjWithInfo = useFoodInfo().getAfternoonFood;
+                this.timesOfDay = 'afternoon'
+                this.timesOfDayForGetters = 'getAfternoonFood'
+                this.timesOfDayForSet = 'setAfternoonFood'
             } else {
                 this.title = 'Ужин';
-                this.ObjWithInfo = useFoodInfo().getEveningFood;
+                this.timesOfDay = 'evening'
+                this.timesOfDayForGetters = 'getEveningFood'
+                this.timesOfDayForSet = 'setEveningFood'
+            }
+        },
+        computed:{
+            infoAboutEatFood:{
+                get(){
+                    if(this.timesOfDayForGetters !== ''){
+                        return useFoodInfo()[`${this.timesOfDayForGetters}`];
+                    } else {
+                        return {}
+                    }
+                }
             }
         }
     }

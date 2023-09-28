@@ -37,13 +37,13 @@ export const useFoodInfo = defineStore('foodInfo', {
     }),
     getters: {
         getMorningFood(){
-            return this.eatFoodInfo[this.selectedDate].morning
+            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate].morning??{}
         },
         getAfternoonFood(){
-            return this.eatFoodInfo[this.selectedDate].afternoon
+            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate].afternoon??{}
         },
         getEveningFood(){
-            return this.eatFoodInfo[this.selectedDate].evening
+            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate].evening??{}
         },
     },
     actions: {
@@ -60,19 +60,20 @@ export const useFoodInfo = defineStore('foodInfo', {
                     afternoon: {},
                     evening: {}
                 }
-            };
+            } else {
+                this.eatFoodInfo[date] = useUserInfo().users[this.activeUser].foodInfo[date];
+            }
             this.selectedDate = date;
-            useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
         setMorningFood(date, food, id){
             this.eatFoodInfo[date].morning[id] = food;
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
-        setAfternoonFood(date, food){
+        setAfternoonFood(date, food, id){
             this.eatFoodInfo[date].afternoon[id] = food;
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
-        setEveningFood(date, food){
+        setEveningFood(date, food, id){
             this.eatFoodInfo[date].evening[id] = food;
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
@@ -82,6 +83,7 @@ export const useFoodInfo = defineStore('foodInfo', {
         },
         setActiveUserForFoodInfoModule(activeUserId){
             this.activeUser = activeUserId;
+            this.eatFoodInfo = useUserInfo().users[activeUserId].foodInfo??[]
         }
     }
 })
