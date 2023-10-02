@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useUserInfo } from "./userInfoModule";
+import { useCalculatorPFC } from "./calculatorProteinsFatsCarbsModule";
 
 export const useFoodInfo = defineStore('foodInfo', {
     state: () => ({
@@ -37,13 +38,13 @@ export const useFoodInfo = defineStore('foodInfo', {
     }),
     getters: {
         getMorningFood(){
-            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate].morning??{}
+            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate]?.morning??{}
         },
         getAfternoonFood(){
-            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate].afternoon??{}
+            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate]?.afternoon??{}
         },
         getEveningFood(){
-            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate].evening??{}
+            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate]?.evening??{}
         },
     },
     actions: {
@@ -55,19 +56,29 @@ export const useFoodInfo = defineStore('foodInfo', {
         },
         setEatFoodInfoForNewDay(date){
             if(this.eatFoodInfo[date] === undefined){
+                this.eatFoodInfo = {};
                 this.eatFoodInfo[date] = {
                     morning: {},
                     afternoon: {},
                     evening: {}
                 }
+                console.log("да что за дела", this.eatFoodInfo)
             } else {
                 this.eatFoodInfo[date] = useUserInfo().users[this.activeUser].foodInfo[date];
             }
             this.selectedDate = date;
         },
-        setMorningFood(date, food, id){
+        setMorningFood(date, food, id, eatFoodWeight){
+            useCalculatorPFC().setRealСharacteristicsFood(food, eatFoodWeight);
+            let realСharacteristicsFood = useCalculatorPFC().getRealСharacteristicsFood;
+            food.calories = realСharacteristicsFood.calorie;
+            food.proteins = realСharacteristicsFood.proteins;
+            food.fats = realСharacteristicsFood.fats;
+            food.carbs = realСharacteristicsFood.carbs;
+            food.weight = eatFoodWeight;
             this.eatFoodInfo[date].morning[id] = food;
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
+            useUserInfo().updateEatCalorieAndPFC(this.eatFoodInfo[date].morning[id], false, date);
         },
         setAfternoonFood(date, food, id){
             this.eatFoodInfo[date].afternoon[id] = food;
@@ -78,6 +89,7 @@ export const useFoodInfo = defineStore('foodInfo', {
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },
         deleteEatFood(date, timesOfDay, eatFoodId){
+            useUserInfo().updateEatCalorieAndPFC(this.eatFoodInfo[date][timesOfDay][eatFoodId], true, date);
             delete this.eatFoodInfo[date][timesOfDay][eatFoodId];
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
         },

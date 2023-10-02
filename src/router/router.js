@@ -3,6 +3,7 @@ import DayPage from '@/pages/DayPage.vue'
 import SelectedMealPage from '@/pages/SelectedMealPage.vue'
 import UsersListPage from '@/pages/UsersListPage.vue'
 import FoodListPage from '@/pages/FoodListPage.vue'
+import StatisticsPage from '@/pages/StatisticsPage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -33,6 +34,10 @@ const routes = [
     {
         path: '/foods',
         component: FoodListPage
+    },
+    {
+        path: '/statistics',
+        component: StatisticsPage
     }
 ]
 const router = createRouter({

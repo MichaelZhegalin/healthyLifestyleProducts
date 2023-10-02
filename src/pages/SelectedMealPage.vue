@@ -79,14 +79,15 @@
                     this.selectedDate,
                     {
                         foodName: this.foodNameProp,
-                        calories: "324 кКал",
-                        proteins: "12 г",
-                        fats: "1 г",
-                        carbs: "67 г",
+                        calories: "324",
+                        proteins: "12",
+                        fats: "1",
+                        carbs: "67",
                         dishWeight: this.dishWeight,
                         id: 2
                     },
-                    Date.now()
+                    Date.now(),
+                    this.dishWeight
                 )
                 this.dishWeight = '';
                 this.setFoodName('');

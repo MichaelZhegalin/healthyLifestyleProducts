@@ -48,6 +48,7 @@
     import MyDialog from '../components/dialog/MyDialog.vue'
     import AddUserForm from '../components/form/AddUserForm.vue'
     import {useUserInfo} from '../store/userInfoModule'
+import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
 
     export default {
         components: { UsersPageNavbar, Carousel, CardForUser, MyDialog, AddUserForm},
@@ -83,14 +84,26 @@
                 this.genderProp = value;
             },
             saveDialogForm(){
+                useCalculatorPFC().setCalorieCount({
+                    weight: this.weight,
+                    height: this.height,
+                    age: this.age,
+                    gender: this.genderProp
+                })
+                useCalculatorPFC().adjustmentForPhysicalActivity(1.55);
+                let needCalorie = Math.floor(useCalculatorPFC().calorieWithPhysicalActivity);
+                let needPFC = useCalculatorPFC().getPFC;
                 useUserInfo().setNewUser({
                     userName: this.userName,
                     age: this.age,
                     height: this.height,
                     weight: this.weight,
                     gender: this.genderProp,
+                    needCalories: needCalorie,
+                    needPFC: needPFC,
                     id: Date.now()
                 });
+                console.log(useUserInfo().users, needCalorie)
                 this.ObjWithInfoTest = useUserInfo().users;
                 this.userName = '';
                 this.age = '';

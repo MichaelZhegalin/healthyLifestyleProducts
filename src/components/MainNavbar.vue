@@ -8,7 +8,7 @@
             <v-container>
                 <v-row>
                     <v-col cols="4">
-                        <v-btn class="navbar-btns">Статистика</v-btn>
+                        <v-btn class="navbar-btns" @click="$router.push('/statistics')">Статистика</v-btn>
                     </v-col>
                     <v-col cols="4">
                         <v-btn class="navbar-btns" @click="$router.push('/users')">Пользователи</v-btn>

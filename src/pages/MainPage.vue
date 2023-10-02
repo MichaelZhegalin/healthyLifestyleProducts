@@ -1,5 +1,4 @@
 <template>
-    <v-btn @click="$router.push('day')">перейти на странцу дня</v-btn>
     <calendar/>
 </template>
 
