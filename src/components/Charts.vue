@@ -1,6 +1,6 @@
 <template>
     <div class="test">
-        <canvas id="myChart"></canvas>
+        <canvas :id="canvasId"></canvas>
         <v-btn @click="showStatistics">Показать статистику</v-btn>
     </div>
 </template>
@@ -9,11 +9,13 @@
 import Chart from 'chart.js/auto';
 export default {
     props:{
+        canvasId: 0,
         chartsTitleOne: String,
         chartsTitleTwo: String,
         requiredCharacteristics: Array,
         obtainedCharacteristics: Array,
-        date: Array
+        date: Array,
+        canvasId: String
     },
     data(){
         return{
@@ -23,7 +25,7 @@ export default {
     },
     methods: {
         showStatistics(){
-            this.ctx = document.getElementById('myChart')
+            this.ctx = document.getElementById(this.canvasId)
             if(this.canvas !== undefined) {
                 this.canvas.destroy();
             }
@@ -47,6 +49,9 @@ export default {
             });
         }
     },
+    // mounted(){
+    //     this.canvasId = 'myChart';
+    // }
 }
 </script>
 
