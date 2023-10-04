@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useUserInfo } from "./userInfoModule";
 
 export const useCalculatorPFC = defineStore('calculatorProteinsFatsCabs', {
     state: () => ({
@@ -47,6 +46,7 @@ export const useCalculatorPFC = defineStore('calculatorProteinsFatsCabs', {
             this.realFoodProteins = foodInfo.proteins / 100 * eatFoodWeight;
             this.realFoodFats = foodInfo.fats / 100 * eatFoodWeight;
             this.realFoodCarbs = foodInfo.carbs / 100 * eatFoodWeight;
+            console.log(foodInfo.proteins, Number(foodInfo.proteins) / 100, foodInfo.proteins * 10 / 100, eatFoodWeight)
         }
     }
 })

@@ -59,7 +59,8 @@
                 activeUser: useFoodInfo().activeUser,
                 selectedDate: useFoodInfo().selectedDate,
                 foodNameProp: '',
-                foodNames: ["Мужчина", "Женщина", "Мурло", "Миша", "Мужчина", "Женщина", "Мурло", "никита",],
+                foodNames: [],
+                foodId: [],
                 dishWeight: '',
                 isShowDialog: false,
             }
@@ -75,17 +76,15 @@
                 this.isShowDialog = true;
             },
             saveDialogForm(){
+                let userSelectedFood;
+                for(let i = 0; i < this.foodNames.length; i++){
+                    if (this.foodNames[i].localeCompare(this.foodNameProp) === 0) {
+                        userSelectedFood = useFoodInfo().foods[this.foodId[i]]
+                    }
+                }
                 useFoodInfo()[this.timesOfDayForSet](
                     this.selectedDate,
-                    {
-                        foodName: this.foodNameProp,
-                        calories: "324",
-                        proteins: "12",
-                        fats: "1",
-                        carbs: "67",
-                        dishWeight: this.dishWeight,
-                        id: 2
-                    },
+                    userSelectedFood,
                     Date.now(),
                     this.dishWeight
                 )
@@ -113,6 +112,10 @@
                 this.timesOfDay = 'evening'
                 this.timesOfDayForGetters = 'getEveningFood'
                 this.timesOfDayForSet = 'setEveningFood'
+            }
+            for(let key in useFoodInfo().foods){
+                this.foodNames.push(useFoodInfo().foods[key].foodName);
+                this.foodId.push(key);
             }
         },
         computed:{

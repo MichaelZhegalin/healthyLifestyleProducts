@@ -2,7 +2,8 @@
     <v-container class="container-size">
         <v-row>
             <v-col>
-                <v-select 
+                <v-autocomplete 
+                    clearable
                     v-model="foodName"
                     :items="foodNames" 
                     label="Выберите блюдо, которое вы ели"

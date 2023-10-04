@@ -1,5 +1,5 @@
 <template>
-    <div class="test">
+    <div class="charts-container">
         <canvas :id="canvasId"></canvas>
     </div>
 </template>
@@ -47,9 +47,9 @@ export default {
 </script>
 
 <style>
-.test{
-    height: 350px;
-    width: 620px;
+.charts-container{
+    height: 370px;
+    width: 700px;
     background-color: whitesmoke;
     border-radius: 15px;
     padding: 15px;

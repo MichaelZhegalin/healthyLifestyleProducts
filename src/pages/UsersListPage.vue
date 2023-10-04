@@ -23,10 +23,13 @@
         </my-dialog>
         <v-row>
             <v-col cols="12">
-                <users-page-navbar/>
+                <users-page-navbar
+                    @setSearchUser="setSearchUser"
+                    :searchUserProp="searchUser"
+                />
             </v-col>
             <v-col class="usersList_col-center" cols="12">
-                    <carousel :ObjWithInfo="ObjWithInfoTest">
+                    <carousel :ObjWithInfo="objWithInfoAboutUsers">
                         <template v-slot:default="cardSlot">
                             <card-for-user 
                                 :id="cardSlot.cardId"
@@ -35,7 +38,9 @@
                     </carousel>
             </v-col>
             <v-col class="usersList_col-center" cols="12">
-                <v-btn @click="showDialog" class="bg-green-lighten-2 text-white" size="x-large">Добавить</v-btn>
+                <v-btn @click="showDialog" class="bg-green-lighten-2 text-white" size="x-large">
+                    Добавить
+                </v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -48,7 +53,7 @@
     import MyDialog from '../components/dialog/MyDialog.vue'
     import AddUserForm from '../components/form/AddUserForm.vue'
     import {useUserInfo} from '../store/userInfoModule'
-import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
+    import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
 
     export default {
         components: { UsersPageNavbar, Carousel, CardForUser, MyDialog, AddUserForm},
@@ -61,10 +66,21 @@ import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
                 weight: '',
                 genderProp: '',
                 genderItem: ["Мужчина", "Женщина"],
-                ObjWithInfoTest: useUserInfo().users
+                objWithInfoAboutUsers: {},
+                searchUser: '', 
             }
         },
         methods: {
+            setSearchUser(value){
+                this.searchUser = value;
+                for(let key in useUserInfo().users){
+                    if (useUserInfo().users[key].userName.toLowerCase().includes(`${value}`)) {
+                        this.objWithInfoAboutUsers[key] = useUserInfo().users[key];
+                    } else {
+                        delete this.objWithInfoAboutUsers[key];
+                    }
+                }
+            },
             showDialog(){
                 this.isShowDialog = true;
             },
@@ -90,9 +106,12 @@ import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
                     age: this.age,
                     gender: this.genderProp
                 })
+
                 useCalculatorPFC().adjustmentForPhysicalActivity(1.55);
+
                 let needCalorie = Math.floor(useCalculatorPFC().calorieWithPhysicalActivity);
                 let needPFC = useCalculatorPFC().getPFC;
+
                 useUserInfo().setNewUser({
                     userName: this.userName,
                     age: this.age,
@@ -103,8 +122,11 @@ import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
                     needPFC: needPFC,
                     id: Date.now()
                 });
-                console.log(useUserInfo().users, needCalorie)
-                this.ObjWithInfoTest = useUserInfo().users;
+
+                for(let key in useUserInfo().users){
+                    this.objWithInfoAboutUsers[key] = useUserInfo().users[key]
+                }
+                
                 this.userName = '';
                 this.age = '';
                 this.height = '';
@@ -118,7 +140,28 @@ import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
                 this.weight = '';
                 this.setGender('');
             }
-        }
+        },
+        computed: {
+            observerOfUsers: {
+                get(){
+                    return Object.keys(useUserInfo().users).length
+                }
+            }
+        },
+        watch: {
+            observerOfUsers(){
+                this.searchUser = '';
+                this.objWithInfoAboutUsers = {}
+                for(let key in useUserInfo().users){
+                    this.objWithInfoAboutUsers[key] = useUserInfo().users[key]
+                }
+            }
+        },
+        mounted(){
+            for(let key in useUserInfo().users){
+                this.objWithInfoAboutUsers[key] = useUserInfo().users[key]
+            }
+        },
     }
 </script>
 

@@ -18,12 +18,15 @@
                                         />
                                     </v-col>
                                     <v-col cols="4">
-                                        <v-text-field variant="underlined" label="Поиск"/>
+                                        <v-text-field 
+                                            variant="underlined" 
+                                            label="Поиск"
+                                            :value="searchFood" 
+                                            @input="setSearchFood($event.target.value)"
+                                        />
                                     </v-col>
                                 </v-row>
                             </v-container>
-                            
-                            
                         </form>
                     </v-col>
                 </v-row>
@@ -34,12 +37,26 @@
 
 <script>
 export default {
+    props:{
+        searchFoodProp: String
+    },
     data(){
         return{
             sortParams: ["Названиям", "Калориям", "Белкам", "Жирам", "Углеводам"],
         }
-    }
-
+    },
+    methods: {
+        setSearchFood(value){
+            this.$emit('setSearchFood', value)
+        }
+    },
+    computed: {
+        searchFood: {
+            get(){
+                return this.searchFoodProp
+            }
+        }
+    },
 }
 </script>
 

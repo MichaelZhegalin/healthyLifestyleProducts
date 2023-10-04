@@ -55,7 +55,7 @@ import { useFoodInfo } from '@/store/foodInfoModule'
         data: (props) => ({
             title: props.eatFood[props.id].foodName,
             items: [
-                { text: `Масса: ${props.eatFood[props.id].dishWeight} г.`, icon: 'mdi-silverware-clean' },
+                { text: `Масса: ${props.eatFood[props.id].weight} г.`, icon: 'mdi-silverware-clean' },
                 { text: `Калории: ${props.eatFood[props.id].calories}`, icon: 'mdi-fire' },
                 { text: `Белки: ${props.eatFood[props.id].proteins}`, icon: 'mdi-water-outline' },
                 { text: `Жиры: ${props.eatFood[props.id].fats}`, icon: 'mdi-water' },

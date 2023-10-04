@@ -82,7 +82,7 @@ import { useUserInfo } from '@/store/userInfoModule'
         computed:{
             isActive: {
                 get(){
-                    return useUserInfo().users[this.id].isActive;
+                    return useUserInfo()?.users[this.id]?.isActive;
                 }
             }
         }
