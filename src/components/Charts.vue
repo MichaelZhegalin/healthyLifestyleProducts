@@ -1,7 +1,6 @@
 <template>
     <div class="test">
         <canvas :id="canvasId"></canvas>
-        <v-btn @click="showStatistics">Показать статистику</v-btn>
     </div>
 </template>
 
@@ -12,9 +11,6 @@ export default {
         canvasId: 0,
         chartsTitleOne: String,
         chartsTitleTwo: String,
-        requiredCharacteristics: Array,
-        obtainedCharacteristics: Array,
-        date: Array,
         canvasId: String
     },
     data(){
@@ -24,7 +20,7 @@ export default {
         }
     },
     methods: {
-        showStatistics(){
+        showStatistics(date, requiredCharacteristics, obtainedCharacteristics){
             this.ctx = document.getElementById(this.canvasId)
             if(this.canvas !== undefined) {
                 this.canvas.destroy();
@@ -32,32 +28,30 @@ export default {
             this.canvas = new Chart(this.ctx, {
                 type: 'bar',
                 data: {
-                labels: this.date,
-                datasets: [
-                    {
-                        label: this.chartsTitleOne,
-                        data: this.requiredCharacteristics,
-                        borderWidth: 1
-                    },
-                    {
-                        label: this.chartsTitleTwo,
-                        data: this.obtainedCharacteristics,
-                        borderWidth: 1
-                    }
-                ]
+                    labels: date,
+                    datasets: [
+                        {
+                            label: this.chartsTitleOne,
+                            data: requiredCharacteristics,
+                        },
+                        {
+                            label: this.chartsTitleTwo,
+                            data: obtainedCharacteristics,
+                        }
+                    ]
                 },
             });
         }
     },
-    // mounted(){
-    //     this.canvasId = 'myChart';
-    // }
 }
 </script>
 
 <style>
 .test{
-    height: 500px;
-    width: 500px;
+    height: 350px;
+    width: 620px;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    padding: 15px;
 }
 </style>

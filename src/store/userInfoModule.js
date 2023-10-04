@@ -45,10 +45,10 @@ export const useUserInfo = defineStore('userInfoModule', {
             let eatFats = eatFood.fats;
             let eatCarbs = eatFood.carbs;
 
-            let oldEatCalories = this.users[this.activeUserId]?.eatCalories?.[date]??0;
-            let oldEatProteins = this.users[this.activeUserId]?.eatPFC?.[date]?.proteins??0;
-            let oldEatFats = this.users[this.activeUserId]?.eatPFC?.[date]?.fats??0;
-            let oldEatCarbs = this.users[this.activeUserId]?.eatPFC?.[date]?.carbs??0;
+            let oldEatCalories = this.users[this.activeUserId]?.eatCalories[date] ?? 0;
+            let oldEatProteins = this.users[this.activeUserId]?.eatPFC?.[date]?.proteins ?? 0;
+            let oldEatFats = this.users[this.activeUserId]?.eatPFC?.[date]?.fats ?? 0;
+            let oldEatCarbs = this.users[this.activeUserId]?.eatPFC?.[date]?.carbs ?? 0;
 
             if(deleteFood === false){
                 this.users[this.activeUserId].eatCalories[date] = oldEatCalories + eatCalories;
@@ -80,7 +80,9 @@ export const useUserInfo = defineStore('userInfoModule', {
             useFoodInfo().setActiveUserForFoodInfoModule(id);
         },
         setFoodInfo(foodInfo, activeUserId){
-            this.users[activeUserId].foodInfo = foodInfo;
+            if(this.users[activeUserId] !== undefined){
+                this.users[activeUserId].foodInfo = foodInfo;
+            }
         },
         deleteUser(id){
             delete this.users[id];

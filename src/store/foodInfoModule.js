@@ -38,13 +38,13 @@ export const useFoodInfo = defineStore('foodInfo', {
     }),
     getters: {
         getMorningFood(){
-            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate]?.morning??{}
+            return useUserInfo().users[this.activeUser]?.foodInfo[this.selectedDate].morning??{}
         },
         getAfternoonFood(){
-            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate]?.afternoon??{}
+            return useUserInfo().users[this.activeUser]?.foodInfo[this.selectedDate].afternoon??{}
         },
         getEveningFood(){
-            return useUserInfo().users[this.activeUser].foodInfo?.[this.selectedDate]?.evening??{}
+            return useUserInfo().users[this.activeUser]?.foodInfo[this.selectedDate].evening??{}
         },
     },
     actions: {
