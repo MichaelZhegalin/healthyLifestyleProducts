@@ -20,27 +20,32 @@
                 />
             </template>
         </my-dialog>
+        <v-row class="d-flex justify-center align-center py-3">
+            <food-page-navbar
+                @setSearchFood="setSearchFood"
+                :searchFoodProp="searchFood"
+            />
+        </v-row>
         <v-row>
-            <v-col cols="12">
-                <food-page-navbar
-                    @setSearchFood="setSearchFood"
-                    :searchFoodProp="searchFood"
-                />
+            <v-container>
+                <v-row v-for="slide in slides" :key="slide">
+                    <v-col>
+                        <card-for-food :id="slide"/>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-row>
+        <v-row>
+            <v-col class="d-flex justify-center align-center">
+                <v-btn @click="setShowFoodBack">Назад</v-btn>
             </v-col>
-            <v-col cols="12">
-                <v-container>
-                    <v-row v-for="slide in slides" :key="slide">
-                        <v-col>
-                            <card-for-food :id="slide"/>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-col>
-            <v-col class="d-flex justify-center" cols="12">
+            <v-col class="d-flex justify-center align-center">
                 <v-btn @click="showDialog" class="bg-green-lighten-2 text-white" size="x-large">Добавить</v-btn>
             </v-col>
+            <v-col class="d-flex justify-center align-center">
+                <v-btn @click="setShowFoodNext">Вперед</v-btn>
+            </v-col>
         </v-row>
-        <v-btn @click="JSONTest">Тестовая кнопочка</v-btn>
     </v-container>
 </template>
 
@@ -52,9 +57,7 @@
     import { useFoodInfo } from '@/store/foodInfoModule'
 
     export default {
-        
         components: { CardForFood, FoodPageNavbar, MyDialog, AddFoodForm },
-
         data(){
             return{
                 isShowDialog: false,
@@ -68,21 +71,13 @@
             }
         },
         methods:{
-            setJSON(){
-                let isNormalize = useFoodInfo().isNormalizeData
-                if(!isNormalize){
-                    useFoodInfo().normalizeData();
-                    useFoodInfo().setJSONFoodBase();
-                }
-            },
             setSearchFood(value){
                 this.searchFood = value;
-                if(value === ''){
+                if (value === '') {
                     this.objWithInfoAboutFoods = {}
-                    for(let key in useFoodInfo().foodsForShow){
-                        this.objWithInfoAboutFoods[key] = useFoodInfo().foodsForShow[key]
-                    }
+                    this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
                 } else {
+                    value = value.toLowerCase();
                     for(let key in useFoodInfo().foods){
                         if (useFoodInfo().foods[key].foodName.toLowerCase().includes(`${value}`)) {
                             if(Object.keys(this.objWithInfoAboutFoods).length < 10){
@@ -109,6 +104,16 @@
             setCarbs(value){
                 this.carbs = value;
             },
+            setShowFoodNext(){
+                useFoodInfo().setShowFoodNext();
+                this.objWithInfoAboutFoods = {};
+                this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
+            },
+            setShowFoodBack(){
+                useFoodInfo().setShowFoodBack();
+                this.objWithInfoAboutFoods = {};
+                this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
+            },
             showDialog(){
                 this.isShowDialog = true;
             },
@@ -133,6 +138,12 @@
                 this.proteins = '';
                 this.fats = '';
                 this.carbs = '';
+            },
+            copyObject(copiedObj, finishObj){
+                for(let key in copiedObj){
+                    finishObj[key] = copiedObj[key];
+                }
+                return finishObj
             }
         },
         computed:{
@@ -152,13 +163,10 @@
                 this.searchFood = '';
                 this.objWithInfoAboutFoods = {}
                 useFoodInfo().setShowFood();
-                for(let key in useFoodInfo().foodsForShow){
-                    this.objWithInfoAboutFoods[key] = useFoodInfo().foodsForShow[key]
-                }
+                this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
             }
         },
         mounted(){
-            this.setJSON();
             useFoodInfo().setShowFood();
             for(let key in useFoodInfo().foodsForShow){
                 this.objWithInfoAboutFoods[key] = useFoodInfo().foodsForShow[key]

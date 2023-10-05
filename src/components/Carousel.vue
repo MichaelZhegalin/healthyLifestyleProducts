@@ -1,12 +1,12 @@
 <template>
     <div class="carousel-container">
         <v-carousel
+            v-if="objWithInfo.length !== 0"
             height="400"
             hide-delimiters
             show-arrows="hover"
-            v-if="ObjWithInfoTest.length !== 0"
         >
-            <v-carousel-item v-for="i in Math.ceil(ObjWithInfoTest.length/3)" :key="i">
+            <v-carousel-item v-for="i in Math.ceil(objWithInfo.length/3)" :key="i">
                 <v-sheet class="carousel-sheet fill-height">
                     <v-container class="fill-height">
                         <v-row justify="center" align="center">
@@ -27,7 +27,7 @@
 <script>
     export default {
         props:{
-            ObjWithInfo: Object,
+            objWithInfoProp: Object,
         },
         data() {
             return {
@@ -56,10 +56,10 @@
                        : md ? 4 * 4 - this.listCardForShow(this.saveNumber).length 
                        : sm ? 6 : 12;
             },
-            ObjWithInfoTest: {
+            objWithInfo: {
                 get(){
-                    this.slides = Object.keys(this.ObjWithInfo);
-                    return Object.keys(this.ObjWithInfo);
+                    this.slides = Object.keys(this.objWithInfoProp);
+                    return Object.keys(this.objWithInfoProp);
                 },
             }
         },

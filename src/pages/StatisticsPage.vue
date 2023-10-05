@@ -41,110 +41,113 @@
         </v-row>
         <v-row class="d-flex justify-space-between">
             <v-col class="d-flex justify-center">
-                <v-btn @click="isWeekShowStatistics">Статистика за неделю</v-btn>
+                <v-btn @click="isWeekShowStatistics">
+                    Статистика за неделю
+                </v-btn>
             </v-col>
             <v-col class="d-flex justify-center">
-                <v-btn @click="isWeekShowStatistics">Статистика за произвольный промежуток</v-btn>
+                <v-btn @click="isWeekShowStatistics">
+                    Статистика за произвольный промежуток
+                </v-btn>
             </v-col>
             <v-col class="d-flex justify-center">
-                <v-btn @click="isMonthShowStatistics">Статистика за месяц</v-btn>
+                <v-btn @click="isMonthShowStatistics">
+                    Статистика за месяц
+                </v-btn>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
-import Charts from '@/components/Charts.vue'
-import { useUserInfo } from '@/store/userInfoModule'
-export default {
-    components: {Charts},
-    data(){
-        return{
-            eatCalories: [],
-            requiredCalories: [],
-            eatProteins: [],
-            requiredProteins: [],
-            eatFats: [],
-            requiredFats: [],
-            eatCarbs: [],
-            requiredCarbs: [],
-            date: undefined,
-        }
-    },
-    methods: {
-        activeRefFoo(){
-            this.$refs.chartsCalories.showStatistics(this.date, this.eatCalories, this.requiredCalories);
-            this.$refs.chartsProteins.showStatistics(this.date, this.eatProteins, this.requiredProteins);
-            this.$refs.chartsFats.showStatistics(this.date, this.eatFats, this.requiredFats);
-            this.$refs.chartsCarbs.showStatistics(this.date, this.eatCarbs, this.requiredCarbs);
-        },
-        isWeekShowStatistics(){
-            this.date = this.getCurrentDaysOfWeek();
-            this.activeRefFoo();
-        },
-        isMonthShowStatistics(){
-            this.date = this.getCurrentDaysOfMonth();
-            this.activeRefFoo();
-        },
-        getCurrentDaysOfWeek(){
-            const year = new Date().getFullYear();
-            let month = new Date().getMonth();
-            let date = new Date(year, month);
-            let weekDate = [];
-            let aciveUserId = useUserInfo().activeUserId;
-            let saveDateForCheck = date.getDate();
-            date.setDate(date.getDate() - 3);
-            if(date.getDate() > saveDateForCheck){
-                month -= 1;
+    import Charts from '@/components/Charts.vue'
+    import { useUserInfo } from '@/store/userInfoModule'
+    
+    export default {
+        components: {Charts},
+        data(){
+            return{
+                eatCalories: [],
+                requiredCalories: [],
+                eatProteins: [],
+                requiredProteins: [],
+                eatFats: [],
+                requiredFats: [],
+                eatCarbs: [],
+                requiredCarbs: [],
+                date: undefined,
             }
-
-            for(let i = 0; i < 7; i++){
-                weekDate[i] = date.getDate();
-                this.setInfoForCharts(weekDate[i], month, year, i, aciveUserId);
-                date.setDate(date.getDate() + 1);
-                if(date.getDate() < weekDate[i]){
-                    month += 1;
+        },
+        methods: {
+            activeRefFoo(){
+                this.$refs.chartsCalories.showStatistics(this.date, this.eatCalories, this.requiredCalories);
+                this.$refs.chartsProteins.showStatistics(this.date, this.eatProteins, this.requiredProteins);
+                this.$refs.chartsFats.showStatistics(this.date, this.eatFats, this.requiredFats);
+                this.$refs.chartsCarbs.showStatistics(this.date, this.eatCarbs, this.requiredCarbs);
+            },
+            isWeekShowStatistics(){
+                this.date = this.getCurrentDaysOfWeek();
+                this.activeRefFoo();
+            },
+            isMonthShowStatistics(){
+                this.date = this.getCurrentDaysOfMonth();
+                this.activeRefFoo();
+            },
+            getCurrentDaysOfWeek(){
+                const year = new Date().getFullYear();
+                let month = new Date().getMonth();
+                let date = new Date(year, month);
+                let weekDate = [];
+                let aciveUserId = useUserInfo().activeUserId;
+                let saveDateForCheck = date.getDate();
+                date.setDate(date.getDate() - 3);
+                if(date.getDate() > saveDateForCheck){
+                    month -= 1;
                 }
+
+                for(let i = 0; i < 7; i++){
+                    weekDate[i] = date.getDate();
+                    this.setInfoForCharts(weekDate[i], month, year, i, aciveUserId);
+                    date.setDate(date.getDate() + 1);
+                    if(date.getDate() < weekDate[i]){
+                        month += 1;
+                    }
+                }
+                return weekDate
+            },
+            setInfoForCharts(day, month, year, num, aciveUserId){
+                this.requiredCalories[num] = useUserInfo().users[useUserInfo().activeUserId]?.needCalories;
+                this.eatCalories[num] = useUserInfo().users[aciveUserId]?.eatCalories[`${day}${month}${year}`];
+
+                this.requiredProteins[num] = useUserInfo().users[useUserInfo().activeUserId]?.needPFC.proteins;
+                this.eatProteins[num] = useUserInfo().users[aciveUserId]?.eatPFC?.[`${day}${month}${year}`]?.proteins;
+
+                this.requiredFats[num] = useUserInfo().users[useUserInfo().activeUserId]?.needPFC.fats;
+                this.eatFats[num] = useUserInfo().users[aciveUserId]?.eatPFC?.[`${day}${month}${year}`]?.fats;
+
+                this.requiredCarbs[num] = useUserInfo().users[useUserInfo().activeUserId]?.needPFC.carbs;
+                this.eatCarbs[num] = useUserInfo().users[aciveUserId]?.eatPFC?.[`${day}${month}${year}`]?.carbs;
+            },
+            getCurrentDaysOfMonth(){
+                const year = new Date().getFullYear();
+                const month = new Date().getMonth();
+                let date = new Date(year, month);
+                let aciveUserId = useUserInfo().activeUserId;
+                let monthDate = [];
+                let dayCounter = 0;
+
+                while(date.getMonth() === month){
+                    monthDate[dayCounter] = date.getDate();
+                    this.setInfoForCharts(monthDate[dayCounter], month, year, dayCounter, aciveUserId)
+                    date.setDate(date.getDate() + 1);
+                    dayCounter += 1;
+                }
+
+                return monthDate
             }
-            return weekDate
         },
-        setInfoForCharts(day, month, year, num, aciveUserId){
-            this.requiredCalories[num] = useUserInfo().users[useUserInfo().activeUserId]?.needCalories;
-            this.eatCalories[num] = useUserInfo().users[aciveUserId]?.eatCalories[`${day}${month}${year}`];
-
-            this.requiredProteins[num] = useUserInfo().users[useUserInfo().activeUserId]?.needPFC.proteins;
-            this.eatProteins[num] = useUserInfo().users[aciveUserId]?.eatPFC?.[`${day}${month}${year}`]?.proteins;
-
-            this.requiredFats[num] = useUserInfo().users[useUserInfo().activeUserId]?.needPFC.fats;
-            this.eatFats[num] = useUserInfo().users[aciveUserId]?.eatPFC?.[`${day}${month}${year}`]?.fats;
-
-            this.requiredCarbs[num] = useUserInfo().users[useUserInfo().activeUserId]?.needPFC.carbs;
-            this.eatCarbs[num] = useUserInfo().users[aciveUserId]?.eatPFC?.[`${day}${month}${year}`]?.carbs;
-        },
-        getCurrentDaysOfMonth(){
-            const year = new Date().getFullYear();
-            const month = new Date().getMonth();
-            let date = new Date(year, month);
-            let aciveUserId = useUserInfo().activeUserId;
-            let monthDate = [];
-            let dayCounter = 0;
-
-            while(date.getMonth() === month){
-                monthDate[dayCounter] = date.getDate();
-                this.setInfoForCharts(monthDate[dayCounter], month, year, dayCounter, aciveUserId)
-                date.setDate(date.getDate() + 1);
-                dayCounter += 1;
-            }
-
-            return monthDate
+        mounted(){
+            this.isWeekShowStatistics()
         }
-    },
-    mounted(){
-        this.isWeekShowStatistics()
     }
-}
 </script>
-
-<style>
-
-</style>

@@ -13,15 +13,20 @@
             "{{ subtitle }}"
         </v-card-subtitle>
         <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn @click="$router.push(`${routerPush}`)" class="btn text-white bg-green-lighten-2">Открыть</v-btn>
+            <v-spacer/>
+            <v-btn 
+                @click="$router.push(`${routerPush}`)" 
+                class="card-btn text-white bg-green-lighten-2"
+            >
+                Открыть
+            </v-btn>
         </v-card-actions>
     </v-card>
 </template>
 
 <script>
     export default {
-        props: {
+        props:{
             title: String,
             imageURL: String,
             subtitle: String,
@@ -31,7 +36,7 @@
     </script>
 
 <style scoped lang="scss">
-    .btn{
+    .card-btn{
         font-weight: 500;
     }
     .card-subtitle{

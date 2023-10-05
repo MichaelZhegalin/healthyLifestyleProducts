@@ -5,7 +5,12 @@
                 <v-col cols="3" class="d-flex justify-start align-center">
                     <h3>{{ foodName }}</h3>
                 </v-col>
-                <v-col cols="7" class="d-flex justify-space-between align-center CardForFood__characteristics-text-container">
+                <v-col 
+                    cols="7" 
+                    class="d-flex justify-space-between 
+                            align-center 
+                            CardForFood__characteristics-text-container"
+                >
                     <span class="CardForFood__characteristics-text">Калории: {{calories}}</span>
                     <span class="CardForFood__characteristics-text">Белки: {{ proteins }}</span>
                     <span class="CardForFood__characteristics-text">Жиры: {{ fats }}</span>
@@ -25,36 +30,35 @@
 </template>
 
 <script>
-import { useFoodInfo } from '@/store/foodInfoModule'
-export default {
-    props: {
-        id: String
-    },
-    data(props){
-        return{
-            foodName: useFoodInfo().foods[props.id].foodName,
-            calories: useFoodInfo().foods[props.id].calories,
-            proteins: useFoodInfo().foods[props.id].proteins,
-            fats: useFoodInfo().foods[props.id].fats,
-            carbs: useFoodInfo().foods[props.id].carbs,
-        }
-    },
-    methods: {
-        deleteFood(){
-            useFoodInfo().deleteFood(this.id);
+    import { useFoodInfo } from '@/store/foodInfoModule'
+    export default {
+        props:{
+            id: String
+        },
+        data(props){
+            return{
+                foodName: useFoodInfo().foods[props.id].foodName,
+                calories: useFoodInfo().foods[props.id].calories,
+                proteins: useFoodInfo().foods[props.id].proteins,
+                fats: useFoodInfo().foods[props.id].fats,
+                carbs: useFoodInfo().foods[props.id].carbs,
+            }
+        },
+        methods:{
+            deleteFood(){
+                useFoodInfo().deleteFood(this.id);
+            }
         }
     }
-}
 </script>
 
 <style>
-.CardForFood__characteristics-text-container{
-    font-size: 18px;
-}
-
-.CardForFood__characteristics-text{
-    background-color: rgba(0,0,0, 0.1);
-    border-radius: 5px;
-    padding: 6px;
-}
+    .CardForFood__characteristics-text-container{
+        font-size: 18px;
+    }
+    .CardForFood__characteristics-text{
+        background-color: rgba(0,0,0, 0.1);
+        border-radius: 5px;
+        padding: 6px;
+    }
 </style>

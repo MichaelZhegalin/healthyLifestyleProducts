@@ -8,10 +8,22 @@
             <v-container>
                 <v-row justify="center">
                     <v-col cols="6">
-                        <v-btn class="text-white bg-green-lighten-2" block @click="saveDialogForm">Сохранить</v-btn>
+                        <v-btn 
+                            class="text-white bg-green-lighten-2" 
+                            @click="saveDialogForm"
+                            block
+                        >
+                            Сохранить
+                        </v-btn>
                     </v-col>
                     <v-col cols="6">
-                        <v-btn class="text-white bg-red-lighten-2" block @click="closeDialogForm">Закрыть</v-btn>
+                        <v-btn 
+                            class="text-white bg-red-lighten-2" 
+                            @click="closeDialogForm"
+                            block
+                        >
+                            Закрыть
+                        </v-btn>
                     </v-col>
                 </v-row>
             </v-container>  
@@ -21,15 +33,9 @@
 
 <script>
     export default {
-        data(){
-            return{
-                formRes: [],
-            }
-        },
         props:{
             isShowDialogProp: Boolean,
             title: String,
-
         },
         methods:{
             saveDialogForm(){
@@ -41,7 +47,7 @@
                 this.$emit('closeDialogForm');
             }
         },
-        computed: {
+        computed:{
             isShowDialog: {
                 get(){
                     return this.isShowDialogProp;
@@ -53,7 +59,3 @@
         },
     }
 </script>
-
-<style>
-
-</style>

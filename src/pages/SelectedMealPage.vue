@@ -22,11 +22,10 @@
                 </div>
             </v-col>
             <v-col class="mealPage_col-center" cols="12">
-                <carousel :ObjWithInfo="infoAboutEatFood">
+                <carousel :objWithInfoProp="infoAboutEatFood">
                     <template v-slot:default="cardSlot">
                         <card-for-eat-food
                             :id="cardSlot.cardId"
-                            :activeUser="activeUser"
                             :timesOfDay="timesOfDay"
                             :selectedDate="selectedDate"
                             :eatFood="infoAboutEatFood"
@@ -35,7 +34,13 @@
                 </carousel>
             </v-col>
             <v-col class="mealPage_col-center" cols="12">
-                <v-btn @click="showDialog" class="bg-green-lighten-2 text-white" size="x-large">Добавить</v-btn>
+                <v-btn 
+                    @click="showDialog" 
+                    class="bg-green-lighten-2 text-white" 
+                    size="x-large"
+                >
+                    Добавить
+                </v-btn>
             </v-col>
         </v-row>
     </v-container>
@@ -48,6 +53,7 @@
     import CardForEatFood from '@/components/cards/CardForEatFood.vue';
     import MyDialog from '@/components/dialog/MyDialog.vue';
     import AddEatFoodForm from '@/components/form/AddEatFoodForm.vue';
+
     export default {
         components: {Carousel, CardForDay, CardForEatFood, MyDialog, AddEatFoodForm},
         data(){
@@ -102,7 +108,7 @@
                 this.timesOfDay = 'morning'
                 this.timesOfDayForGetters = 'getMorningFood'
                 this.timesOfDayForSet = 'setMorningFood'
-            }else if (this.$route.params.meal.localeCompare('lunch') === 0){
+            } else if (this.$route.params.meal.localeCompare('lunch') === 0){
                 this.title = 'Обед';
                 this.timesOfDay = 'afternoon'
                 this.timesOfDayForGetters = 'getAfternoonFood'

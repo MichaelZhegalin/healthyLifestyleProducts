@@ -37,7 +37,7 @@
                     variant="underlined"
                 />
             </v-col>
-            <v-col block>
+            <v-col>
                 <v-select 
                     v-model="gender"
                     :items="genderItem" 
@@ -51,7 +51,7 @@
   
 <script>
     export default{
-        props: {
+        props:{
             userName: String,
             age: String,
             height: String,
@@ -59,11 +59,7 @@
             genderProp: String,
             genderItem: Array
         },
-        data() {
-            return{
-            }
-        },
-        methods: {
+        methods:{
             setUserName(event){
                 this.$emit('setUserName', event.target.value);
             },
@@ -80,7 +76,7 @@
                 this.$emit('setGender', event.target.value);
             }
         },
-        computed: {
+        computed:{
             gender: {
                 get(){
                     return this.genderProp

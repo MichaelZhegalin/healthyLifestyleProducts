@@ -22,11 +22,6 @@
     </v-app-bar>
 </template>
 
-<script>
-    export default {
-    }
-</script>
-
 <style scoped lang="scss">
     .appbar-font-size{
         font-size: 20px;

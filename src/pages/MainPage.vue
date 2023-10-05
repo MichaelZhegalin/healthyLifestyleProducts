@@ -3,17 +3,22 @@
 </template>
 
 <script>
-    import { useSampleStore } from '../store/sampleStore';
     import Calendar from '@/components/Calendar.vue';
+    import { useFoodInfo } from '@/store/foodInfoModule'
+
     export default {
         components: {Calendar},
-        data(){
-            return{
-                sampleStore: useSampleStore()
-            }
+        methods: {
+            setJSON(){
+                let isNormalize = useFoodInfo().isNormalizeData
+                if(!isNormalize){
+                    useFoodInfo().normalizeData();
+                    useFoodInfo().setJSONFoodBase();
+                }
+            },
+        },
+        mounted(){
+            this.setJSON();
         }
     }
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -19,36 +19,32 @@
                 rounded="shaped"
             >
                 <template v-slot:prepend>
-                    <v-icon :icon="item.icon"></v-icon>
+                    <v-icon :icon="item.icon"/>
                 </template>
                 <span>{{ item.text }}</span>
             </v-list-item>
         </v-list>
         <v-container>
-            <v-row justify="center">
-                <v-col class="card_btns-col" cols="12">
-                    <v-btn 
-                        @click="deleteFood" 
-                        class="btn bg-red-lighten-2 text-white"
-                    >
+            <v-row justify="center" class="py-3">
+                <v-btn 
+                    @click="deleteFood" 
+                    class="card-btn bg-red-lighten-2 text-white"
+                >
                     Удалить
-                    </v-btn>
-                </v-col>
+                </v-btn>
             </v-row>
         </v-container>  
     </v-card>
 </template>
 
 <script>
-import { useUserInfo } from '@/store/userInfoModule'
-import { useFoodInfo } from '@/store/foodInfoModule'
+    import { useFoodInfo } from '@/store/foodInfoModule'
 
     export default {
-        props: {
+        props:{
             imageURL: String,
             id: String,
             timesOfDay: String,
-            activeUser: String,
             selectedDate: String,
             eatFood: Object
         },
@@ -62,7 +58,7 @@ import { useFoodInfo } from '@/store/foodInfoModule'
                 { text: `Углеводы: ${props.eatFood[props.id].carbs}`, icon: 'mdi-wall-fire' },
             ],
         }),
-        methods: {
+        methods:{
             deleteFood(){
                 useFoodInfo().deleteEatFood(this.selectedDate, this.timesOfDay, this.id);
             }
@@ -71,11 +67,7 @@ import { useFoodInfo } from '@/store/foodInfoModule'
 </script>
 
 <style scoped lang="scss">
-    .btn{
+    .card-btn{
         font-weight: 500;
-    }
-    .card_btns-col{
-        display: flex; 
-        justify-content: center;
     }
 </style>

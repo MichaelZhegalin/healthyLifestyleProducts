@@ -67,23 +67,29 @@ export const useFoodInfo = defineStore('foodInfo', {
         },
         setShowFood(){
             this.counterAddFood = 0;
+            this.foodsForShow = {};
             for(let i = 0; i < 10; i++){
-                let id = Object.keys(this.foods)[i]
-                this.foodsForShow[id] = this.foods[id]
+                let id = Object.keys(this.foods)[i];
+                this.foodsForShow[id] = this.foods[id];
             }
         },
         setShowFoodNext(){
+            console.log('А что, а всмысле')
             this.counterAddFood += 10;
+            this.foodsForShow = {};
             for(let i = 0; i < 10; i++){
-                this.foodsForShow[i] = this.foods[i + this.counterAddFood];
+                let id = Object.keys(this.foods)[i + this.counterAddFood];
+                this.foodsForShow[id] = this.foods[id];
             }
         },
         setShowFoodBack(){
             if(this.counterAddFood !== 0){
                 this.counterAddFood -= 10;
             }
+            this.foodsForShow = {};
             for(let i = 0; i < 10; i++){
-                this.foodsForShow[i] = this.foods[i + this.counterAddFood]
+                let id = Object.keys(this.foods)[i + this.counterAddFood];
+                this.foodsForShow[id] = this.foods[id];
             }
         },
         setNewFood(foodInfo){

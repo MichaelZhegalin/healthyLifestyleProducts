@@ -30,7 +30,7 @@
                     <v-btn 
                         @click="setActiveUser" 
                         v-if="!isActive" 
-                        class="btn bg-green-lighten-2 text-white"
+                        class="card-btn bg-green-lighten-2 text-white"
                     >
                         Выбрать
                     </v-btn>
@@ -44,7 +44,7 @@
                 <v-col class="card_btns-col" cols="6">
                     <v-btn 
                         @click="deleteUser" 
-                        class="btn bg-red-lighten-2 text-white"
+                        class="card-btn bg-red-lighten-2 text-white"
                     >
                     Удалить
                     </v-btn>
@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import { useUserInfo } from '@/store/userInfoModule'
+    import { useUserInfo } from '@/store/userInfoModule'
 
     export default {
-        props: {
+        props:{
             imageURL: String,
             id: String
         },
@@ -71,7 +71,7 @@ import { useUserInfo } from '@/store/userInfoModule'
             ],
             title: useUserInfo().users[props.id].userName,
         }),
-        methods: {
+        methods:{
             setActiveUser(){
                 useUserInfo().setActiveUser(this.id)
             },
@@ -86,12 +86,11 @@ import { useUserInfo } from '@/store/userInfoModule'
                 }
             }
         }
-
     }
 </script>
 
 <style scoped lang="scss">
-    .btn{
+    .card-btn{
         font-weight: 500;
     }
     .card_btns-col{

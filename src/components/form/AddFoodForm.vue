@@ -47,18 +47,14 @@
   
 <script>
     export default{
-        props: {
+        props:{
             foodName: String,
             calories: String,
             proteins: String,
             fats: String,
             carbs: String,
         },
-        data() {
-            return{
-            }
-        },
-        methods: {
+        methods:{
             setFoodName(event){
                 this.$emit('setFoodName', event.target.value);
             },

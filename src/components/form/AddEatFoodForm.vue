@@ -1,39 +1,33 @@
 <template>
     <v-container class="container-size">
-        <v-row>
-            <v-col>
-                <v-autocomplete 
-                    clearable
-                    v-model="foodName"
-                    :items="foodNames" 
-                    label="Выберите блюдо, которое вы ели"
-                    variant="underlined"
-                />
-            </v-col>
-            <v-col cols="12">
-                <v-text-field
-                    :value="dishWeight"
-                    @input="setDishWeight"
-                    label="Сколько грамм вы съели"
-                    variant="underlined"
-                />
-            </v-col>
+        <v-row class="pa-5">
+            <v-autocomplete 
+                clearable
+                v-model="foodName"
+                :items="foodNames" 
+                label="Выберите блюдо, которое вы ели"
+                variant="underlined"
+            />
+        </v-row>
+        <v-row class="pa-5">
+            <v-text-field
+                :value="dishWeight"
+                @input="setDishWeight"
+                label="Сколько грамм вы съели"
+                variant="underlined"
+            />
         </v-row>
     </v-container>
 </template>
   
 <script>
     export default{
-        props: {
+        props:{
             dishWeight: String,
             foodNameProp: String,
             foodNames: Array
         },
-        data() {
-            return{
-            }
-        },
-        methods: {
+        methods:{
             setDishWeight(event){
                 this.$emit('setDishWeight', event.target.value);
             },
@@ -41,7 +35,7 @@
                 this.$emit('setFoodName', event.target.value);
             }
         },
-        computed: {
+        computed:{
             foodName: {
                 get(){
                     return this.foodNameProp

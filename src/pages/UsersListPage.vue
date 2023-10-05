@@ -29,7 +29,7 @@
                 />
             </v-col>
             <v-col class="usersList_col-center" cols="12">
-                    <carousel :ObjWithInfo="objWithInfoAboutUsers">
+                    <carousel :objWithInfoProp="objWithInfoAboutUsers">
                         <template v-slot:default="cardSlot">
                             <card-for-user 
                                 :id="cardSlot.cardId"
@@ -73,6 +73,7 @@
         methods: {
             setSearchUser(value){
                 this.searchUser = value;
+                value = value.toLowerCase();
                 for(let key in useUserInfo().users){
                     if (useUserInfo().users[key].userName.toLowerCase().includes(`${value}`)) {
                         this.objWithInfoAboutUsers[key] = useUserInfo().users[key];
@@ -123,9 +124,7 @@
                     id: Date.now()
                 });
 
-                for(let key in useUserInfo().users){
-                    this.objWithInfoAboutUsers[key] = useUserInfo().users[key]
-                }
+                this.copyObject(useUserInfo().users, this.objWithInfoAboutUsers);
                 
                 this.userName = '';
                 this.age = '';
@@ -139,6 +138,12 @@
                 this.height = '';
                 this.weight = '';
                 this.setGender('');
+            },
+            copyObject(copiedObj, finishObj){
+                for(let key in copiedObj){
+                    finishObj[key] = copiedObj[key];
+                }
+                return finishObj
             }
         },
         computed: {
@@ -151,16 +156,12 @@
         watch: {
             observerOfUsers(){
                 this.searchUser = '';
-                this.objWithInfoAboutUsers = {}
-                for(let key in useUserInfo().users){
-                    this.objWithInfoAboutUsers[key] = useUserInfo().users[key]
-                }
+                this.objWithInfoAboutUsers = {};
+                this.copyObject(useUserInfo().users, this.objWithInfoAboutUsers);
             }
         },
         mounted(){
-            for(let key in useUserInfo().users){
-                this.objWithInfoAboutUsers[key] = useUserInfo().users[key]
-            }
+            this.copyObject(useUserInfo().users, this.objWithInfoAboutUsers);
         },
     }
 </script>

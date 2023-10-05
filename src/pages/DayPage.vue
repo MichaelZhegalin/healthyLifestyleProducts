@@ -31,12 +31,13 @@
 
 <script>
     import CardForDay from '../components/cards/CardForDay.vue';
+
     export default {
         components: {CardForDay}
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     .day-page-container{
         position: absolute; 
         top: 50%; 
