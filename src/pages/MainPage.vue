@@ -11,7 +11,7 @@
         methods: {
             setJSON(){
                 let isNormalize = useFoodInfo().isNormalizeData
-                if(!isNormalize){
+                if (!isNormalize) {
                     useFoodInfo().normalizeData();
                     useFoodInfo().setJSONFoodBase();
                 }

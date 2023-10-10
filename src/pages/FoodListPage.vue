@@ -4,6 +4,7 @@
             v-model="isShowDialog" 
             @saveDialogForm="saveDialogForm" 
             @closeDialogForm="closeDialogForm"
+            :btnVisible="true"
         >
             <template #formBody>
                 <add-food-form
@@ -24,6 +25,8 @@
             <food-page-navbar
                 @setSearchFood="setSearchFood"
                 :searchFoodProp="searchFood"
+                @setSortFood="setSortFood"
+                :sortFoodProp="sortFood"
             />
         </v-row>
         <v-row>
@@ -67,6 +70,7 @@
                 fats: '',
                 carbs: '',
                 searchFood: '',
+                sortFood: undefined,
                 objWithInfoAboutFoods: {}
             }
         },
@@ -88,6 +92,9 @@
                         }
                     }
                 }
+            },
+            setSortFood(value){
+                this.sortFood = value;
             },
             setFoodName(value){
                 this.foodName = value;
@@ -118,14 +125,24 @@
                 this.isShowDialog = true;
             },
             saveDialogForm(){
-                useFoodInfo().setNewFood({
-                    foodName: this.foodName,
-                    calories: this.calories,
-                    proteins: this.proteins,
-                    fats: this.fats,
-                    carbs: this.carbs,
-                    id: Date.now()
-                })
+                if (
+                    this.foodName !== '' && 
+                    this.calories !== '' && 
+                    this.proteins !== '' && 
+                    this.carbs !== '' && 
+                    this.fats !== ''
+                ) {
+                    useFoodInfo().setNewFood({
+                        foodName: this.foodName,
+                        calories: this.calories,
+                        proteins: this.proteins,
+                        fats: this.fats,
+                        carbs: this.carbs,
+                        id: Date.now()
+                    })
+                } else {
+                    alert("Вы не заполнили форму!");
+                }
                 this.foodName = '';
                 this.calories = '';
                 this.proteins = '';
@@ -164,6 +181,33 @@
                 this.objWithInfoAboutFoods = {}
                 useFoodInfo().setShowFood();
                 this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
+            },
+            sortFood(){
+                let sortValue = {
+                    'Калориям': 'calories',
+                    'Белкам': 'proteins',
+                    'Жирам': 'fats',
+                    'Углеводам': 'carbs',
+                }
+                let keysForSort = Object.keys(useFoodInfo().foods)
+                let sortFoodObj = {}
+                let counter = 0;
+                
+                keysForSort.sort((a, b) =>
+                    useFoodInfo().foods[b][`${sortValue[this.sortFood]}`] - useFoodInfo().foods[a][`${sortValue[this.sortFood]}`]);
+                for(let key in useFoodInfo().foods){
+                    sortFoodObj[key] = useFoodInfo().foods[keysForSort[counter]];
+                    counter += 1;
+                }
+                for(let key in sortFoodObj){
+                    useFoodInfo().foods[key] = sortFoodObj[key];
+                }
+                this.objWithInfoAboutFoods = {}
+                setTimeout(() =>{
+                    useFoodInfo().setShowFood();
+                    this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
+                }, 0)
+                
             }
         },
         mounted(){

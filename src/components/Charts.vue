@@ -22,7 +22,7 @@
         methods: {
             showStatistics(date, requiredCharacteristics, obtainedCharacteristics){
                 this.ctx = document.getElementById(this.canvasId)
-                if(this.canvas !== undefined) {
+                if (this.canvas !== undefined) {
                     this.canvas.destroy();
                 }
                 this.canvas = new Chart(this.ctx, {

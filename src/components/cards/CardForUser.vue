@@ -59,10 +59,12 @@
 
     export default {
         props:{
-            imageURL: String,
             id: String
         },
         data: (props) => ({
+            imageURL: useUserInfo().users[props.id].gender.localeCompare('Мужчина') === 0 ? 
+                        "/src/img/man.jpg" : 
+                        "/src/img/woman.png",
             items: [
                 { text: `Пол: ${useUserInfo().users[props.id].gender}`, icon: 'mdi-gender-male-female' },
                 { text: `Возраст: ${useUserInfo().users[props.id].age}`, icon: 'mdi-clock' },

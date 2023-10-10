@@ -64,16 +64,24 @@
                 this.$emit('setUserName', event.target.value);
             },
             setAge(event){
-                this.$emit('setAge', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setAge', event.target.value);
+                }
             },
             setHeight(event){
-                this.$emit('setHeight', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setHeight', event.target.value);
+                }
             },
             setWeight(event){
-                this.$emit('setWeight', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setWeight', event.target.value);
+                }
             },
             setGender(event){
-                this.$emit('setGender', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setGender', event.target.value);
+                }
             }
         },
         computed:{

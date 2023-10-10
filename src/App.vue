@@ -4,7 +4,7 @@
           <main-navbar/>
       </header>
       <v-main class="app-background">
-          <!-- <window-with-user-info :id="id"/> -->
+          <users-plate :id="id"/>
           <router-view/>
       </v-main>
   </v-app>
@@ -12,15 +12,10 @@
 
 <script>
 import MainNavbar from './components/MainNavbar.vue'
-import WindowWithUserInfo from './components/WindowWithUserInfo.vue'
+import usersPlate from './components/UsersPlate.vue'
 import { useUserInfo } from './store/userInfoModule'
 export default {
-  components: { MainNavbar, WindowWithUserInfo },
-  data(){
-    return {
-      // id: useUserInfo().activeUserId,
-    }
-  },
+  components: { MainNavbar, usersPlate },
   computed:{
     id: {
       get(){

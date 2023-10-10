@@ -1,5 +1,17 @@
 <template>
     <v-container>
+        <my-dialog 
+            v-model="isShowDialog" 
+            :btnVisible="false"
+            @closeDialogForm="closeDialogForm"
+        >
+            <template #formBody>
+                <add-date-statistics-form
+                    :dateProp="calendarDate"
+                    @addDate="addDate"
+                />
+            </template>
+        </my-dialog>
         <v-row>
             <v-col class="d-flex justify-center">
                 <charts
@@ -46,7 +58,7 @@
                 </v-btn>
             </v-col>
             <v-col class="d-flex justify-center">
-                <v-btn @click="isWeekShowStatistics">
+                <v-btn @click="showDialog">
                     Статистика за произвольный промежуток
                 </v-btn>
             </v-col>
@@ -62,11 +74,15 @@
 <script>
     import Charts from '@/components/Charts.vue'
     import { useUserInfo } from '@/store/userInfoModule'
+    import AddDateStatisticsForm from '@/components/form/AddDateStatisticsForm.vue'
+    import MyDialog from '@/components/dialog/MyDialog.vue'
     
     export default {
-        components: {Charts},
+        components: {Charts, AddDateStatisticsForm, MyDialog},
         data(){
             return{
+                calendarDate: [],
+                isShowDialog: false,
                 eatCalories: [],
                 requiredCalories: [],
                 eatProteins: [],
@@ -79,6 +95,39 @@
             }
         },
         methods: {
+            addDate(value){
+                this.calendarDate = value;
+            },
+            getCurrentDaysOfInterval(calendarDate){
+                const year = calendarDate[0].getFullYear();
+                let month = calendarDate[0].getMonth();
+                let aciveUserId = useUserInfo().activeUserId;
+                let dates = [];
+                if (calendarDate.length < 2) {
+                    alert("Необходимо выбрать промежуток!");
+                } else {
+                    let interval = calendarDate[1].getDate() - calendarDate[0].getDate();
+                    for(let i = 0; i <= interval; i++){
+                        dates[i] = calendarDate[0].getDate();
+                        this.setInfoForCharts(dates[i], month, year, i, aciveUserId);
+                        calendarDate[0].setDate(calendarDate[0].getDate() + 1);
+                        if (calendarDate[0].getDate() < calendarDate[0][i]) {
+                            month += 1;
+                        }
+                    }
+                }
+
+                return dates
+            },
+            closeDialogForm(){
+                if (this.calendarDate !== undefined) {
+                    this.date = this.getCurrentDaysOfInterval(this.calendarDate);
+                    this.activeRefFoo();
+                }
+            },
+            showDialog(){
+                this.isShowDialog = true;
+            },
             activeRefFoo(){
                 this.$refs.chartsCalories.showStatistics(this.date, this.eatCalories, this.requiredCalories);
                 this.$refs.chartsProteins.showStatistics(this.date, this.eatProteins, this.requiredProteins);
@@ -96,12 +145,12 @@
             getCurrentDaysOfWeek(){
                 const year = new Date().getFullYear();
                 let month = new Date().getMonth();
-                let date = new Date(year, month);
+                let date = new Date();
                 let weekDate = [];
                 let aciveUserId = useUserInfo().activeUserId;
                 let saveDateForCheck = date.getDate();
                 date.setDate(date.getDate() - 3);
-                if(date.getDate() > saveDateForCheck){
+                if (date.getDate() > saveDateForCheck) {
                     month -= 1;
                 }
 
@@ -109,7 +158,7 @@
                     weekDate[i] = date.getDate();
                     this.setInfoForCharts(weekDate[i], month, year, i, aciveUserId);
                     date.setDate(date.getDate() + 1);
-                    if(date.getDate() < weekDate[i]){
+                    if (date.getDate() < weekDate[i]) {
                         month += 1;
                     }
                 }

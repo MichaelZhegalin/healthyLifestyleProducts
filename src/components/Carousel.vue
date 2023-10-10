@@ -2,7 +2,7 @@
     <div class="carousel-container">
         <v-carousel
             v-if="objWithInfo.length !== 0"
-            height="400"
+            height="430"
             hide-delimiters
             show-arrows="hover"
         >
@@ -40,7 +40,7 @@
                 let listCard = [];
                 this.saveNumber = number
                 for(let i = 0; i < 3; i++){
-                    if (this.slides[i + 3*number] !== undefined){
+                    if (this.slides[i + 3*number] !== undefined) {
                         listCard[i] = this.slides[i + 3*number];
                     } else {
                         i = 3;
@@ -54,7 +54,7 @@
                 const { lg, md, sm } = this.$vuetify.display;
                 return lg ? 4 * 4 - this.listCardForShow(this.saveNumber).length 
                        : md ? 4 * 4 - this.listCardForShow(this.saveNumber).length 
-                       : sm ? 6 : 12;
+                       : 12;
             },
             objWithInfo: {
                 get(){
@@ -68,7 +68,7 @@
 
 <style scoped lang="scss">
     .carousel-container{
-        max-width: 55rem;
+        max-width: 65rem;
     }
     .carousel-sheet{
         overflow: auto; 

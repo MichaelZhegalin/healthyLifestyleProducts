@@ -17,6 +17,7 @@
                                 <v-row>
                                     <v-col cols="8">
                                         <v-select 
+                                            v-model="sortFood"
                                             :items="sortParams" 
                                             label="Сортировать по"
                                             variant="underlined"
@@ -41,26 +42,35 @@
 </template>
 
 <script>
-export default {
-    props:{
-        searchFoodProp: String
-    },
-    data(){
-        return{
-            sortParams: ["Названиям", "Калориям", "Белкам", "Жирам", "Углеводам"],
-        }
-    },
-    methods: {
-        setSearchFood(value){
-            this.$emit('setSearchFood', value)
-        }
-    },
-    computed: {
-        searchFood: {
-            get(){
-                return this.searchFoodProp
+    export default {
+        props:{
+            searchFoodProp: String,
+            sortFoodProp: String
+        },
+        data(){
+            return{
+                sortParams: ["Калориям", "Белкам", "Жирам", "Углеводам"],
             }
-        }
-    },
-}
+        },
+        methods:{
+            setSearchFood(value){
+                this.$emit('setSearchFood', value);
+            }
+        },
+        computed:{
+            searchFood: {
+                get(){
+                    return this.searchFoodProp
+                }
+            },
+            sortFood: {
+                get(){
+                    return this.sortFoodProp
+                },
+                set(value){
+                        return this.$emit('setSortFood', value)
+                    }
+            },
+        },
+    }
 </script>

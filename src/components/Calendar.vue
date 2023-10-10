@@ -12,7 +12,7 @@
                             Назад
                         </v-btn>
                     </v-col>
-                    <v-col class="d-flex align-center">
+                    <v-col class="d-flex align-center justify-center">
                         Выбран: {{ isDate.month }} {{ isDate.year }}
                     </v-col>
                     <v-col class="text-center">
@@ -47,6 +47,7 @@
 
 <script>
     import { useFoodInfo } from '@/store/foodInfoModule';
+    import { useUserInfo } from '@/store/userInfoModule';
 
     export default {
         data(){
@@ -66,7 +67,7 @@
         },
         methods:{
             ToNextMonth(){
-                if (this.selectMonth !== 11){
+                if (this.selectMonth !== 11) {
                     this.selectMonth += 1;
                 } else {
                     this.selectMonth = 0;
@@ -74,7 +75,7 @@
                 }
             },
             ToPrevMonth(){
-                if (this.selectMonth !== 0){
+                if (this.selectMonth !== 0) {
                     this.selectMonth -= 1;
                 } else {
                     this.selectMonth = 11;
@@ -99,7 +100,7 @@
 
                 while(date.getMonth() === month){
                     weekDays[saveWeekDaysLen + weekDaysCounter] = date.getDate();
-                    if(this.getDay(date) % 7 === 6){
+                    if (this.getDay(date) % 7 === 6) {
                         this.monthWeeks[this.monthWeeks.length] = weekDays;
                         weekDays = [];
                         saveWeekDaysLen = 0;
@@ -109,7 +110,7 @@
                     weekDaysCounter += 1;
                 }
 
-                if(this.getDay(date) !== 0){
+                if (this.getDay(date) !== 0) {
                     for(let i = this.getDay(date); i < 7; i++){
                         weekDays[i] = null;
                     }
@@ -122,14 +123,21 @@
             },
             getDay(date){
                 let day = date.getDay();
-                if(day === 0){
+                if (day === 0) {
                     day = 7;
                 }
                 return day - 1;
             },
             selectedDay(dayNum){
-                useFoodInfo().setEatFoodInfoForNewDay(`${dayNum}${this.selectMonth}${this.seletYear}`);
-                this.$router.push('day');
+                if (useUserInfo().activeUserId) {
+                    useFoodInfo().setEatFoodInfoForNewDay(`${dayNum}${this.selectMonth}${this.seletYear}`);
+                    this.$router.push('day');
+                } else {
+                    alert(
+                            `Дорогой пользователь!
+Перед тем как заносить информацию о съеденных блюдах, пожалуйста, войдите/создайте свой профиль во вкладке "Пользователи"`
+                        );
+                } 
             }
         },
         watch:{

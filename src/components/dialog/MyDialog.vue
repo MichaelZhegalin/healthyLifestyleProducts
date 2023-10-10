@@ -12,6 +12,7 @@
                             class="text-white bg-green-lighten-2" 
                             @click="saveDialogForm"
                             block
+                            v-if="btnVisible !== false"
                         >
                             Сохранить
                         </v-btn>
@@ -36,6 +37,7 @@
         props:{
             isShowDialogProp: Boolean,
             title: String,
+            btnVisible: Boolean
         },
         methods:{
             saveDialogForm(){

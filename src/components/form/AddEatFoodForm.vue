@@ -29,7 +29,9 @@
         },
         methods:{
             setDishWeight(event){
-                this.$emit('setDishWeight', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setDishWeight', event.target.value);
+                }
             },
             setFoodName(event){
                 this.$emit('setFoodName', event.target.value);

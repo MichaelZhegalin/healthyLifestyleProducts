@@ -59,16 +59,24 @@
                 this.$emit('setFoodName', event.target.value);
             },
             setCalories(event){
-                this.$emit('setCalories', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setCalories', event.target.value);
+                } 
             },
             setProteins(event){
-                this.$emit('setProteins', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setProteins', event.target.value);
+                }  
             },
             setFats(event){
-                this.$emit('setFats', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setFats', event.target.value);
+                }
             },
             setCarbs(event){
-                this.$emit('setCarbs', event.target.value);
+                if (!!Number(event.target.value) && Number(event.target.value) >= 0) {
+                    this.$emit('setCarbs', event.target.value);
+                }
             }
         },
     }

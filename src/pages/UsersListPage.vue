@@ -4,6 +4,7 @@
             v-model="isShowDialog" 
             @saveDialogForm="saveDialogForm" 
             @closeDialogForm="closeDialogForm"
+            :btnVisible="true"
         >
             <template #formBody>
                 <add-user-form
@@ -101,30 +102,40 @@
                 this.genderProp = value;
             },
             saveDialogForm(){
-                useCalculatorPFC().setCalorieCount({
-                    weight: this.weight,
-                    height: this.height,
-                    age: this.age,
-                    gender: this.genderProp
-                })
+                if (
+                    this.userName !== '' &&
+                    this.weight !== '' && 
+                    this.height !== '' && 
+                    this.age !== '' &&
+                    this.genderProp !== ''
+                ) {
+                    useCalculatorPFC().setCalorieCount({
+                        weight: this.weight,
+                        height: this.height,
+                        age: this.age,
+                        gender: this.genderProp
+                    })
 
-                useCalculatorPFC().adjustmentForPhysicalActivity(1.55);
+                    useCalculatorPFC().adjustmentForPhysicalActivity(1.55);
 
-                let needCalorie = Math.floor(useCalculatorPFC().calorieWithPhysicalActivity);
-                let needPFC = useCalculatorPFC().getPFC;
+                    let needCalorie = Math.floor(useCalculatorPFC().calorieWithPhysicalActivity);
+                    let needPFC = useCalculatorPFC().getPFC;
 
-                useUserInfo().setNewUser({
-                    userName: this.userName,
-                    age: this.age,
-                    height: this.height,
-                    weight: this.weight,
-                    gender: this.genderProp,
-                    needCalories: needCalorie,
-                    needPFC: needPFC,
-                    id: Date.now()
-                });
+                    useUserInfo().setNewUser({
+                        userName: this.userName,
+                        age: this.age,
+                        height: this.height,
+                        weight: this.weight,
+                        gender: this.genderProp,
+                        needCalories: needCalorie,
+                        needPFC: needPFC,
+                        id: Date.now()
+                    });
 
-                this.copyObject(useUserInfo().users, this.objWithInfoAboutUsers);
+                    this.copyObject(useUserInfo().users, this.objWithInfoAboutUsers);
+                } else {
+                    alert("Вы заполнили форму не до конца!");
+                }
                 
                 this.userName = '';
                 this.age = '';

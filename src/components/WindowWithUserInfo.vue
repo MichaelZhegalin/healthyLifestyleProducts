@@ -56,7 +56,6 @@
     .CardForFood__characteristics-text-container{
         font-size: 18px;
     }
-
     .CardForFood__characteristics-text{
         width: 200px;
         background-color: rgba(0,0,0, 0.1);

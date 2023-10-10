@@ -19,22 +19,7 @@ export const useUserInfo = defineStore('userInfoModule', {
                 this.eatPFC = {}
             }
         },
-        users: {
-            1: {
-                userName: "Миша",
-                age: 22,
-                height: 180,
-                weight: 65,
-                gender: "Мужчина",
-                isActive: false,
-                id: 1,
-                foodInfo: {},
-                needCalories: undefined,
-                needPFC: undefined,
-                eatCalorie: {},
-                eatPFC: {}
-            }
-        },
+        users: {},
         activeUserId: '',
     }),
     getters: {},
@@ -50,7 +35,7 @@ export const useUserInfo = defineStore('userInfoModule', {
             let oldEatFats = this.users[this.activeUserId]?.eatPFC?.[date]?.fats ?? 0;
             let oldEatCarbs = this.users[this.activeUserId]?.eatPFC?.[date]?.carbs ?? 0;
 
-            if(deleteFood === false){
+            if (deleteFood === false) {
                 this.users[this.activeUserId].eatCalories[date] = oldEatCalories + eatCalories;
                 this.users[this.activeUserId].eatPFC[date] = {
                     proteins: oldEatProteins + eatProteins,
@@ -65,14 +50,12 @@ export const useUserInfo = defineStore('userInfoModule', {
                     carbs: oldEatCarbs - eatCarbs
                 };
             }
-
-            console.log(this.users[this.activeUserId])
         },
         setNewUser(userInfo){
             this.users[userInfo.id] = new this.User(userInfo);
         },
         setActiveUser(id){
-            if(this.activeUserId !== ''){
+            if (this.activeUserId !== '' && this.users[this.activeUserId] !== undefined) {
                 this.users[this.activeUserId].isActive = false;
             }
             this.users[id].isActive = true;
@@ -80,11 +63,14 @@ export const useUserInfo = defineStore('userInfoModule', {
             useFoodInfo().setActiveUserForFoodInfoModule(id);
         },
         setFoodInfo(foodInfo, activeUserId){
-            if(this.users[activeUserId] !== undefined){
+            if (this.users[activeUserId] !== undefined) {
                 this.users[activeUserId].foodInfo = foodInfo;
             }
         },
         deleteUser(id){
+            if (this.activeUserId === id) {
+                this.activeUserId = '';
+            }
             delete this.users[id];
         }
     }

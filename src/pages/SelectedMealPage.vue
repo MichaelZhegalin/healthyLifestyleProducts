@@ -4,6 +4,7 @@
             v-model="isShowDialog" 
             @saveDialogForm="saveDialogForm" 
             @closeDialogForm="closeDialogForm"
+            :btnVisible="true"
         >
             <template #formBody>
                 <add-eat-food-form
@@ -29,6 +30,7 @@
                             :timesOfDay="timesOfDay"
                             :selectedDate="selectedDate"
                             :eatFood="infoAboutEatFood"
+                            :imageURL="imageURL"
                         />
                     </template>   
                 </carousel>
@@ -69,6 +71,7 @@
                 foodId: [],
                 dishWeight: '',
                 isShowDialog: false,
+                imageURL: ''
             }
         },
         methods:{
@@ -82,18 +85,28 @@
                 this.isShowDialog = true;
             },
             saveDialogForm(){
-                let userSelectedFood;
+                let userSelectedFood = {};
+                let checkExistsFood = false;
                 for(let i = 0; i < this.foodNames.length; i++){
                     if (this.foodNames[i].localeCompare(this.foodNameProp) === 0) {
-                        userSelectedFood = useFoodInfo().foods[this.foodId[i]]
+                        for(let key in useFoodInfo().foods[this.foodId[i]]){
+                            userSelectedFood[key] = useFoodInfo().foods[this.foodId[i]][key];
+                            checkExistsFood = true;
+                        }
                     }
                 }
-                useFoodInfo()[this.timesOfDayForSet](
-                    this.selectedDate,
-                    userSelectedFood,
-                    Date.now(),
-                    this.dishWeight
-                )
+                if (checkExistsFood && this.dishWeight !== '') {
+                    useFoodInfo()[this.timesOfDayForSet](
+                        this.selectedDate,
+                        userSelectedFood,
+                        Date.now(),
+                        this.dishWeight
+                    )
+                } else if (this.dishWeight !== '') {
+                    alert("Выбранное блюдо не найдено");
+                } else {
+                    alert("Вы не ввели массу блюда!");
+                }
                 this.dishWeight = '';
                 this.setFoodName('');
             },
@@ -103,21 +116,24 @@
             }
         },
         mounted(){
-            if (this.$route.params.meal.localeCompare('breakfast') === 0){
+            if (this.$route.params.meal.localeCompare('breakfast') === 0) {
                 this.title = 'Завтрак';
                 this.timesOfDay = 'morning'
                 this.timesOfDayForGetters = 'getMorningFood'
                 this.timesOfDayForSet = 'setMorningFood'
-            } else if (this.$route.params.meal.localeCompare('lunch') === 0){
+                this.imageURL="/src/img/breakfast.jpg"
+            } else if (this.$route.params.meal.localeCompare('lunch') === 0) {
                 this.title = 'Обед';
                 this.timesOfDay = 'afternoon'
                 this.timesOfDayForGetters = 'getAfternoonFood'
                 this.timesOfDayForSet = 'setAfternoonFood'
+                this.imageURL="/src/img/lunch.jpg"
             } else {
                 this.title = 'Ужин';
                 this.timesOfDay = 'evening'
                 this.timesOfDayForGetters = 'getEveningFood'
                 this.timesOfDayForSet = 'setEveningFood'
+                this.imageURL="/src/img/dinner.jpg"
             }
             for(let key in useFoodInfo().foods){
                 this.foodNames.push(useFoodInfo().foods[key].foodName);
@@ -127,7 +143,7 @@
         computed:{
             infoAboutEatFood:{
                 get(){
-                    if(this.timesOfDayForGetters !== ''){
+                    if (this.timesOfDayForGetters !== '') {
                         return useFoodInfo()[`${this.timesOfDayForGetters}`];
                     } else {
                         return {}

@@ -32,7 +32,7 @@ export const useCalculatorPFC = defineStore('calculatorProteinsFatsCabs', {
             const height = userInfo.height;
             const age = userInfo.age;
 
-            if(userInfo.gender.localeCompare("Мужчина") === 0){
+            if (userInfo.gender.localeCompare("Мужчина") === 0) {
                 this.calorie = 10 * weight + 6.25 * height - 5 * age + 5;
             } else{
                 this.calorie = 10 * weight + 6.25 * height - 5 * age - 161;
@@ -46,7 +46,6 @@ export const useCalculatorPFC = defineStore('calculatorProteinsFatsCabs', {
             this.realFoodProteins = foodInfo.proteins / 100 * eatFoodWeight;
             this.realFoodFats = foodInfo.fats / 100 * eatFoodWeight;
             this.realFoodCarbs = foodInfo.carbs / 100 * eatFoodWeight;
-            console.log(foodInfo.proteins, Number(foodInfo.proteins) / 100, foodInfo.proteins * 10 / 100, eatFoodWeight)
         }
     }
 })

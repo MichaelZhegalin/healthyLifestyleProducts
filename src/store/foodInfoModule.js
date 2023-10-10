@@ -42,16 +42,16 @@ export const useFoodInfo = defineStore('foodInfo', {
                 food_base[i].proteins = food_base[i].proteins.split(" ")[0];
                 food_base[i].fats = food_base[i].fats.split(" ")[0];
                 food_base[i].carbs = food_base[i].carbs.split(" ")[0];
-                if(food_base[i].calories.includes(",")){
+                if (food_base[i].calories.includes(",")) {
                     food_base[i].calories = food_base[i].calories.split(",")[0] + "." + food_base[i].calories.split(",")[1];
                 }
-                if(food_base[i].proteins.includes(",")){
+                if (food_base[i].proteins.includes(",")) {
                     food_base[i].proteins = food_base[i].proteins.split(",")[0] + "." + food_base[i].proteins.split(",")[1];
                 }
-                if(food_base[i].fats.includes(",")){
+                if (food_base[i].fats.includes(",")) {
                     food_base[i].fats = food_base[i].fats.split(",")[0] + "." + food_base[i].fats.split(",")[1];
                 }
-                if(food_base[i].carbs.includes(",")){
+                if (food_base[i].carbs.includes(",")) {
                     food_base[i].carbs = food_base[i].carbs.split(",")[0] + "." + food_base[i].carbs.split(",")[1];
                 }
                 food_base[i].id = Date.now() - i * 10;
@@ -74,7 +74,6 @@ export const useFoodInfo = defineStore('foodInfo', {
             }
         },
         setShowFoodNext(){
-            console.log('А что, а всмысле')
             this.counterAddFood += 10;
             this.foodsForShow = {};
             for(let i = 0; i < 10; i++){
@@ -83,7 +82,7 @@ export const useFoodInfo = defineStore('foodInfo', {
             }
         },
         setShowFoodBack(){
-            if(this.counterAddFood !== 0){
+            if (this.counterAddFood !== 0) {
                 this.counterAddFood -= 10;
             }
             this.foodsForShow = {};
@@ -99,7 +98,7 @@ export const useFoodInfo = defineStore('foodInfo', {
             delete this.foods[id];
         },
         setEatFoodInfoForNewDay(date){
-            if(this.eatFoodInfo[date] === undefined){
+            if (this.eatFoodInfo[date] === undefined) {
                 this.eatFoodInfo = {};
                 this.eatFoodInfo[date] = {
                     morning: {},
@@ -155,13 +154,11 @@ export const useFoodInfo = defineStore('foodInfo', {
 
             let realСharacteristicsFood = useCalculatorPFC().getRealСharacteristicsFood;
 
-            food.calories = realСharacteristicsFood.calorie;
-            food.proteins = realСharacteristicsFood.proteins;
-            food.fats = realСharacteristicsFood.fats;
-            food.carbs = realСharacteristicsFood.carbs;
+            food.calories = Number(realСharacteristicsFood.calorie.toFixed(2));
+            food.proteins = Number(realСharacteristicsFood.proteins.toFixed(2));
+            food.fats = Number(realСharacteristicsFood.fats.toFixed(2));
+            food.carbs = Number(realСharacteristicsFood.carbs.toFixed(2));
             food.weight = eatFoodWeight;
-
-            console.log('хуй',food, realСharacteristicsFood)
 
             return food
         }

@@ -1,10 +1,10 @@
 <template>
-    <v-card class="mx-auto" max-width="344" min-width="200">
+    <v-card class="mx-auto d-flex flex-column" max-width="344" min-width="200" height="400">
         <v-img
             :src="imageURL"
             class="align-end"
             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-            height="95px"
+            height="65px"
             cover
         >
             <v-card-title class="text-white">{{ title }}</v-card-title>
@@ -24,7 +24,7 @@
                 <span>{{ item.text }}</span>
             </v-list-item>
         </v-list>
-        <v-container>
+        <v-container class="d-flex align-end">
             <v-row justify="center" class="py-3">
                 <v-btn 
                     @click="deleteFood" 
