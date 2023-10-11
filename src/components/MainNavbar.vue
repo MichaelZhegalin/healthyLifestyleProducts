@@ -1,7 +1,7 @@
 <template>
     <v-app-bar :elevation="1" rounded>
         <v-app-bar-nav-icon @click="$router.push('/')">
-            <v-img :width="45" src="src/img/apple.png"/>
+            <v-img :width="45" src="/src/img/apple.png"/>
         </v-app-bar-nav-icon>
         <v-app-bar-title class="appbar-font-size">ЗОЖ-учет продуктов</v-app-bar-title>
         <div>
