@@ -90,7 +90,11 @@
                         } else {
                             delete this.objWithInfoAboutFoods[key];
                         }
-                    }
+                        if(useFoodInfo().foods[key].foodName.toLowerCase().localeCompare(`${value}`) === 0){
+                            this.objWithInfoAboutFoods = {};
+                            this.objWithInfoAboutFoods[key] = useFoodInfo().foods[key];
+                        }
+                    }      
                 }
             },
             setSortFood(value){

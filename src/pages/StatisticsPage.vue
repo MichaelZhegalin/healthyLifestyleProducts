@@ -99,13 +99,13 @@
                 this.calendarDate = value;
             },
             getCurrentDaysOfInterval(calendarDate){
-                const year = calendarDate[0].getFullYear();
-                let month = calendarDate[0].getMonth();
+                const year = calendarDate[0]?.getFullYear();
+                let month = calendarDate[0]?.getMonth();
                 let aciveUserId = useUserInfo().activeUserId;
                 let dates = [];
-                if (calendarDate.length < 2) {
+                if (calendarDate.length < 2 && calendarDate.length !== 0) {
                     alert("Необходимо выбрать промежуток!");
-                } else {
+                } else if (calendarDate.length === 2) {
                     let interval = calendarDate[1].getDate() - calendarDate[0].getDate();
                     for(let i = 0; i <= interval; i++){
                         dates[i] = calendarDate[0].getDate();

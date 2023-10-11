@@ -19,11 +19,19 @@ export const useUserInfo = defineStore('userInfoModule', {
                 this.eatPFC = {}
             }
         },
-        users: {},
+        users: JSON.parse(localStorage.getItem('users')) ?? {},
         activeUserId: '',
     }),
-    getters: {},
     actions: {
+        saveToLocalStorage(){
+            if (this.activeUserId !== '') {
+                this.users[this.activeUserId].isActive = false;
+                localStorage.setItem('users', JSON.stringify(this.users));
+                this.users[this.activeUserId].isActive = true;
+            } else {
+                localStorage.setItem('users', JSON.stringify(this.users));
+            }
+        },
         updateEatCalorieAndPFC(eatFood, deleteFood, date){
             let eatCalories = eatFood.calories;
             let eatProteins = eatFood.proteins;
@@ -50,9 +58,11 @@ export const useUserInfo = defineStore('userInfoModule', {
                     carbs: oldEatCarbs - eatCarbs
                 };
             }
+            this.saveToLocalStorage();
         },
         setNewUser(userInfo){
             this.users[userInfo.id] = new this.User(userInfo);
+            this.saveToLocalStorage();
         },
         setActiveUser(id){
             if (this.activeUserId !== '' && this.users[this.activeUserId] !== undefined) {
@@ -65,6 +75,7 @@ export const useUserInfo = defineStore('userInfoModule', {
         setFoodInfo(foodInfo, activeUserId){
             if (this.users[activeUserId] !== undefined) {
                 this.users[activeUserId].foodInfo = foodInfo;
+                this.saveToLocalStorage();
             }
         },
         deleteUser(id){
@@ -72,6 +83,7 @@ export const useUserInfo = defineStore('userInfoModule', {
                 this.activeUserId = '';
             }
             delete this.users[id];
+            this.saveToLocalStorage();
         }
     }
 })

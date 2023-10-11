@@ -15,12 +15,12 @@ export const useFoodInfo = defineStore('foodInfo', {
                 this.id = foodInfo.id;
             }
         },
-        isNormalizeData: false,
+        isNormalizeData: localStorage.getItem('isNormalizeData') ?? false,
         activeUser: '',
         selectedDate: '',
-        foods: {},
+        foods: JSON.parse(localStorage.getItem('foods')) ?? {},
         foodsForShow: {},
-        eatFoodInfo: {},
+        eatFoodInfo: JSON.parse(localStorage.getItem('eatFoodInfo')) ?? {},
         counterAddFood: 0,
     }),
     getters: {
@@ -59,6 +59,8 @@ export const useFoodInfo = defineStore('foodInfo', {
                 delete food_base[i].name;
             }
             this.isNormalizeData = true;
+            localStorage.setItem('foods', JSON.stringify(this.foods));
+            localStorage.setItem('isNormalizeData', true);
         },
         setJSONFoodBase(){
             for(let i = 0; i < food_base.length; i++){
@@ -93,9 +95,11 @@ export const useFoodInfo = defineStore('foodInfo', {
         },
         setNewFood(foodInfo){
             this.foods[foodInfo.id] = new this.Food(foodInfo);
+            localStorage.setItem('foods', JSON.stringify(this.foods));
         },
         deleteFood(id){
             delete this.foods[id];
+            localStorage.setItem('foods', JSON.stringify(this.foods));
         },
         setEatFoodInfoForNewDay(date){
             if (this.eatFoodInfo[date] === undefined) {
@@ -115,6 +119,7 @@ export const useFoodInfo = defineStore('foodInfo', {
                 };
             }
             this.selectedDate = date;
+            localStorage.setItem('eatFoodInfo', JSON.stringify(this.eatFoodInfo));
         },
         setMorningFood(date, food, id, eatFoodWeight){
             food = this.workWithRealCharacteristicsFood(food, eatFoodWeight)
@@ -123,6 +128,7 @@ export const useFoodInfo = defineStore('foodInfo', {
 
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
             useUserInfo().updateEatCalorieAndPFC(this.eatFoodInfo[date].morning[id], false, date);
+            localStorage.setItem('eatFoodInfo', JSON.stringify(this.eatFoodInfo));
         },
         setAfternoonFood(date, food, id, eatFoodWeight){
             food = this.workWithRealCharacteristicsFood(food, eatFoodWeight)
@@ -131,6 +137,7 @@ export const useFoodInfo = defineStore('foodInfo', {
             
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
             useUserInfo().updateEatCalorieAndPFC(this.eatFoodInfo[date].afternoon[id], false, date);
+            localStorage.setItem('eatFoodInfo', JSON.stringify(this.eatFoodInfo));
         },
         setEveningFood(date, food, id, eatFoodWeight){
             food = this.workWithRealCharacteristicsFood(food, eatFoodWeight)
@@ -139,11 +146,13 @@ export const useFoodInfo = defineStore('foodInfo', {
             
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
             useUserInfo().updateEatCalorieAndPFC(this.eatFoodInfo[date].evening[id], false, date);
+            localStorage.setItem('eatFoodInfo', JSON.stringify(this.eatFoodInfo));
         },
         deleteEatFood(date, timesOfDay, eatFoodId){
             useUserInfo().updateEatCalorieAndPFC(this.eatFoodInfo[date][timesOfDay][eatFoodId], true, date);
             delete this.eatFoodInfo[date][timesOfDay][eatFoodId];
             useUserInfo().setFoodInfo(this.eatFoodInfo, this.activeUser);
+            localStorage.setItem('eatFoodInfo', JSON.stringify(this.eatFoodInfo));
         },
         setActiveUserForFoodInfoModule(activeUserId){
             this.activeUser = activeUserId;
