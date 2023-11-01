@@ -1,20 +1,11 @@
 import { defineStore } from "pinia";
 import { useUserInfo } from "./userInfoModule";
 import { useCalculatorPFC } from "./calculatorProteinsFatsCarbsModule";
+import { FoodConstuctor } from "./constructors/foorConstructor"
 import food_base from "@/data/food_base"
 
 export const useFoodInfo = defineStore('foodInfo', {
     state: () => ({
-        Food: class {
-            constructor(foodInfo){
-                this.foodName = foodInfo.foodName;
-                this.calories = foodInfo.calories;
-                this.proteins = foodInfo.proteins;
-                this.fats = foodInfo.fats;
-                this.carbs = foodInfo.carbs;
-                this.id = foodInfo.id;
-            }
-        },
         isNormalizeData: localStorage.getItem('isNormalizeData') ?? false,
         activeUser: '',
         selectedDate: '',
@@ -25,13 +16,13 @@ export const useFoodInfo = defineStore('foodInfo', {
     }),
     getters: {
         getMorningFood(){
-            return useUserInfo().users[this.activeUser]?.foodInfo?.[this.selectedDate]?.morning??{}
+            return useUserInfo().users[this.activeUser]?.foodInfo?.[this.selectedDate]?.morning ?? {}
         },
         getAfternoonFood(){
-            return useUserInfo().users[this.activeUser]?.foodInfo?.[this.selectedDate]?.afternoon??{}
+            return useUserInfo().users[this.activeUser]?.foodInfo?.[this.selectedDate]?.afternoon ?? {}
         },
         getEveningFood(){
-            return useUserInfo().users[this.activeUser]?.foodInfo?.[this.selectedDate]?.evening??{}
+            return useUserInfo().users[this.activeUser]?.foodInfo?.[this.selectedDate]?.evening ?? {}
         },
     },
     actions: {
@@ -94,7 +85,7 @@ export const useFoodInfo = defineStore('foodInfo', {
             }
         },
         setNewFood(foodInfo){
-            this.foods[foodInfo.id] = new this.Food(foodInfo);
+            this.foods[foodInfo.id] = new FoodConstuctor(foodInfo);
             localStorage.setItem('foods', JSON.stringify(this.foods));
         },
         deleteFood(id){
@@ -156,7 +147,7 @@ export const useFoodInfo = defineStore('foodInfo', {
         },
         setActiveUserForFoodInfoModule(activeUserId){
             this.activeUser = activeUserId;
-            this.eatFoodInfo = useUserInfo().users[activeUserId].foodInfo??[]
+            this.eatFoodInfo = useUserInfo().users[activeUserId].foodInfo ?? []
         },
         workWithRealCharacteristicsFood(food, eatFoodWeight){
             useCalculatorPFC().setRealСharacteristicsFood(food, eatFoodWeight);

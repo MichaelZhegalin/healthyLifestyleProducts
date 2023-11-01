@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <my-dialog 
+        <form-dialog
             v-model="isShowDialog" 
             :btnVisible="false"
             @closeDialogForm="closeDialogForm"
@@ -11,7 +11,7 @@
                     @addDate="addDate"
                 />
             </template>
-        </my-dialog>
+        </form-dialog>
         <v-row>
             <v-col class="d-flex justify-center">
                 <charts
@@ -75,10 +75,10 @@
     import Charts from '@/components/Charts.vue'
     import { useUserInfo } from '@/store/userInfoModule'
     import AddDateStatisticsForm from '@/components/form/AddDateStatisticsForm.vue'
-    import MyDialog from '@/components/dialog/MyDialog.vue'
+    import FormDialog from '@/components/dialog/FormDialog.vue'
     
     export default {
-        components: {Charts, AddDateStatisticsForm, MyDialog},
+        components: {Charts, AddDateStatisticsForm, FormDialog},
         data(){
             return{
                 calendarDate: [],
@@ -91,7 +91,7 @@
                 requiredFats: [],
                 eatCarbs: [],
                 requiredCarbs: [],
-                date: undefined,
+                date: null,
             }
         },
         methods: {

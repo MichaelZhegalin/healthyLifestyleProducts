@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <my-dialog 
+        <form-dialog 
             v-model="isShowDialog" 
             @saveDialogForm="saveDialogForm" 
             @closeDialogForm="closeDialogForm"
@@ -20,7 +20,7 @@
                     @setCarbs="setCarbs"
                 />
             </template>
-        </my-dialog>
+        </form-dialog>
         <v-row class="d-flex justify-center align-center py-3">
             <food-page-navbar
                 @setSearchFood="setSearchFood"
@@ -55,12 +55,12 @@
 <script>
     import CardForFood from '@/components/cards/CardForFood.vue'
     import FoodPageNavbar from '@/components/FoodPageNavbar.vue'
-    import MyDialog from '@/components/dialog/MyDialog.vue'
+    import FormDialog from '@/components/dialog/FormDialog.vue'
     import AddFoodForm from '@/components/form/AddFoodForm.vue'
     import { useFoodInfo } from '@/store/foodInfoModule'
 
     export default {
-        components: { CardForFood, FoodPageNavbar, MyDialog, AddFoodForm },
+        components: { CardForFood, FoodPageNavbar, FormDialog, AddFoodForm },
         data(){
             return{
                 isShowDialog: false,
@@ -70,7 +70,7 @@
                 fats: '',
                 carbs: '',
                 searchFood: '',
-                sortFood: undefined,
+                sortFood: null,
                 objWithInfoAboutFoods: {}
             }
         },

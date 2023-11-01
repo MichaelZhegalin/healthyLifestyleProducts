@@ -33,12 +33,12 @@
         computed: {
             title: {
                 get(){
-                    return useUserInfo()?.users?.[this.id]?.userName??"Гость"
+                    return useUserInfo()?.users?.[this.id]?.userName ?? "Гость"
                 }
             },
             isAuthorized: {
                 get(){
-                    return useUserInfo()?.users?.[this.id]?.userName === undefined? false: true
+                    return useUserInfo()?.users?.[this.id]?.userName === undefined ? false : true
                 }
             }
         },

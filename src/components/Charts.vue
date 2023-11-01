@@ -15,14 +15,14 @@
         },
         data(){
             return{
-                ctx: undefined,
-                canvas: undefined
+                ctx: null,
+                canvas: null
             }
         },
         methods: {
             showStatistics(date, requiredCharacteristics, obtainedCharacteristics){
                 this.ctx = document.getElementById(this.canvasId)
-                if (this.canvas !== undefined) {
+                if (this.canvas !== null) {
                     this.canvas.destroy();
                 }
                 this.canvas = new Chart(this.ctx, {

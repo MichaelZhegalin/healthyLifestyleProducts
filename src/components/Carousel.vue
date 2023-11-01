@@ -32,7 +32,7 @@
         data() {
             return {
                 slides: [],
-                saveNumber: undefined
+                saveNumber: null
             }
         },
         methods: {

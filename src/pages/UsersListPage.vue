@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <my-dialog 
+        <form-dialog 
             v-model="isShowDialog" 
             @saveDialogForm="saveDialogForm" 
             @closeDialogForm="closeDialogForm"
@@ -21,7 +21,7 @@
                     @setGender="setGender"
                 />
             </template>
-        </my-dialog>
+        </form-dialog>
         <v-row>
             <v-col cols="12">
                 <users-page-navbar
@@ -51,13 +51,13 @@
     import UsersPageNavbar from '../components/UsersPageNavbar.vue'
     import Carousel from '../components/Carousel.vue'
     import CardForUser from '../components/cards/CardForUser.vue'
-    import MyDialog from '../components/dialog/MyDialog.vue'
+    import FormDialog from '../components/dialog/FormDialog.vue'
     import AddUserForm from '../components/form/AddUserForm.vue'
     import {useUserInfo} from '../store/userInfoModule'
     import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
 
     export default {
-        components: { UsersPageNavbar, Carousel, CardForUser, MyDialog, AddUserForm},
+        components: { UsersPageNavbar, Carousel, CardForUser, FormDialog, AddUserForm},
         data(){
             return{
                 isShowDialog: false,

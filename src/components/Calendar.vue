@@ -13,7 +13,7 @@
                         </v-btn>
                     </v-col>
                     <v-col class="d-flex align-center justify-center">
-                        Выбран: {{ isDate.month }} {{ isDate.year }}
+                        Выбран: {{ selectedDate.month }} {{ selectedDate.year }}
                     </v-col>
                     <v-col class="text-center">
                         <v-btn @click="ToNextMonth">Вперед</v-btn>
@@ -57,12 +57,12 @@
                             "Май", "Июнь", "Июль", "Август", "Сентябрь",
                             "Октябрь", "Ноябрь", "Декабрь"],
                 monthWeeks: [],
-                isDate: {
+                selectedDate: {
                     month: '',
                     year: ''
                 },
-                selectMonth: undefined,
-                seletYear: undefined
+                selectMonth: null,
+                selectYear: null
             }
         },
         methods:{
@@ -71,7 +71,7 @@
                     this.selectMonth += 1;
                 } else {
                     this.selectMonth = 0;
-                    this.seletYear += 1;
+                    this.selectYear += 1;
                 }
             },
             ToPrevMonth(){
@@ -79,7 +79,7 @@
                     this.selectMonth -= 1;
                 } else {
                     this.selectMonth = 11;
-                    this.seletYear -= 1;
+                    this.selectYear -= 1;
                 }
             },
             createCalendar(year, month){
@@ -89,8 +89,8 @@
                 let weekDays = [];
                 this.monthWeeks = [];
 
-                this.isDate.month = this.monthName[month];
-                this.isDate.year = year;
+                this.selectedDate.month = this.monthName[month];
+                this.selectedDate.year = year;
 
                 for(let i = 0; i < this.getDay(date); i++){
                     weekDays[i] = null;
@@ -130,7 +130,7 @@
             },
             selectedDay(dayNum){
                 if (useUserInfo().activeUserId) {
-                    useFoodInfo().setEatFoodInfoForNewDay(`${dayNum}${this.selectMonth}${this.seletYear}`);
+                    useFoodInfo().setEatFoodInfoForNewDay(`${dayNum}${this.selectMonth}${this.selectYear}`);
                     this.$router.push('day');
                 } else {
                     alert(
@@ -142,12 +142,12 @@
         },
         watch:{
             selectMonth(newSelectedMonth){
-                this.createCalendar(this.seletYear, newSelectedMonth);
+                this.createCalendar(this.selectYear, newSelectedMonth);
             }
         },
         mounted(){
             this.selectMonth = new Date().getMonth();
-            this.seletYear = new Date().getFullYear();
+            this.selectYear = new Date().getFullYear();
         }
     }
 </script>

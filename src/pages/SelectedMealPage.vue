@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <my-dialog 
+        <form-dialog 
             v-model="isShowDialog" 
             @saveDialogForm="saveDialogForm" 
             @closeDialogForm="closeDialogForm"
@@ -15,7 +15,7 @@
                     @setDishWeight="setDishWeight"
                 />
             </template>
-        </my-dialog>
+        </form-dialog>
         <v-row>
             <v-col cols="4" offset="4">
                 <div class="bg-green-lighten-2 meal-header">
@@ -53,14 +53,14 @@
     import CardForDay from '../components/cards/CardForDay.vue';
     import { useFoodInfo } from '@/store/foodInfoModule';
     import CardForEatFood from '@/components/cards/CardForEatFood.vue';
-    import MyDialog from '@/components/dialog/MyDialog.vue';
+    import FormDialog from '@/components/dialog/FormDialog.vue';
     import AddEatFoodForm from '@/components/form/AddEatFoodForm.vue';
 
     export default {
-        components: {Carousel, CardForDay, CardForEatFood, MyDialog, AddEatFoodForm},
+        components: {Carousel, CardForDay, CardForEatFood, FormDialog, AddEatFoodForm},
         data(){
             return{
-                title: undefined,
+                title: null,
                 timesOfDay: '',
                 timesOfDayForGetters: '',
                 timesOfDayForSet: '',

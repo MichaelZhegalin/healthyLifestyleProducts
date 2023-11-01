@@ -12,8 +12,8 @@
         <v-list density="compact">
             <v-list-subheader>Вы употребили: </v-list-subheader>
             <v-list-item
-                v-for="(item, i) in items"
-                :key="i"
+                v-for="item in items"
+                :key="item"
                 :value="item"
                 color="primary"
                 rounded="shaped"

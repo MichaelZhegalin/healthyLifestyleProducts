@@ -1,24 +1,9 @@
 import { defineStore } from "pinia";
 import { useFoodInfo } from "./foodInfoModule";
+import { UserConstructor } from "./constructors/userConstructor"
 
 export const useUserInfo = defineStore('userInfoModule', {
     state: () => ({
-        User: class {
-            constructor(userInfo){
-                this.userName = userInfo.userName;
-                this.age = userInfo.age;
-                this.height = userInfo.height;
-                this.weight = userInfo.weight;
-                this.gender = userInfo.gender;
-                this.isActive = false;
-                this.id = userInfo.id;
-                this.foodInfo = undefined;
-                this.needCalories = userInfo.needCalories;
-                this.needPFC = userInfo.needPFC;
-                this.eatCalories = {};
-                this.eatPFC = {}
-            }
-        },
         users: JSON.parse(localStorage.getItem('users')) ?? {},
         activeUserId: '',
     }),
@@ -61,7 +46,7 @@ export const useUserInfo = defineStore('userInfoModule', {
             this.saveToLocalStorage();
         },
         setNewUser(userInfo){
-            this.users[userInfo.id] = new this.User(userInfo);
+            this.users[userInfo.id] = new UserConstructor(userInfo);
             this.saveToLocalStorage();
         },
         setActiveUser(id){

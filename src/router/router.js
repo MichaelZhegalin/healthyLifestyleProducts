@@ -20,14 +20,6 @@ const routes = [
         component: SelectedMealPage
     },
     {
-        path: '/day/:meal',
-        component: SelectedMealPage
-    },
-    {
-        path: '/day/:meal',
-        component: SelectedMealPage
-    },
-    {
         path: '/users',
         component: UsersListPage
     },

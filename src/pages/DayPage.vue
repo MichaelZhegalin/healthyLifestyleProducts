@@ -5,7 +5,7 @@
                 <card-for-day 
                     title="Завтрак"
                     subtitle="Съешь сам"
-                    imageURL="src/img/breakfast.jpg"
+                    imageURL="/src/img/breakfast.jpg"
                     routerPush="day/breakfast"
                 />
             </v-col>
@@ -13,7 +13,7 @@
                 <card-for-day 
                     title="Обед"
                     subtitle="Раздели с другом"
-                    imageURL="src/img/lunch.jpg"
+                    imageURL="/src/img/lunch.jpg"
                     routerPush="day/lunch"
                 />
             </v-col>
@@ -21,7 +21,7 @@
                 <card-for-day 
                     title="Ужин"
                     subtitle="Отдай врагу"
-                    imageURL="src/img/dinner.jpg"
+                    imageURL="/src/img/dinner.jpg"
                     routerPush="day/dinner"
                 />
             </v-col>
