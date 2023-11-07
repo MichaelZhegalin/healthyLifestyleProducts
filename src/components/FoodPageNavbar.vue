@@ -27,8 +27,7 @@
                                         <v-text-field 
                                             variant="underlined" 
                                             label="Поиск"
-                                            :value="searchFood" 
-                                            @input="setSearchFood($event.target.value)"
+                                            v-model="searchFood"
                                         />
                                     </v-col>
                                 </v-row>
@@ -44,7 +43,7 @@
 <script>
     export default {
         props:{
-            searchFoodProp: String,
+            modelValue: String,
             sortFoodProp: String
         },
         data(){
@@ -60,7 +59,10 @@
         computed:{
             searchFood: {
                 get(){
-                    return this.searchFoodProp
+                    return this.modelValue
+                },
+                set(value){
+                    this.$emit('update:modelValue', value)
                 }
             },
             sortFood: {

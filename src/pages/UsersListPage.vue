@@ -15,8 +15,7 @@
         <v-row>
             <v-col cols="12">
                 <users-page-navbar
-                    @setSearchUser="setSearchUser"
-                    :searchUserProp="searchUser"
+                    v-model="searchUser"
                 />
             </v-col>
             <v-col class="usersList_col-center" cols="12">
@@ -64,17 +63,6 @@
             }
         },
         methods:{
-            setSearchUser(value){
-                this.searchUser = value;
-                value = value.toLowerCase();
-                for(let key in useUserInfo().users){
-                    if (useUserInfo().users[key].userName.toLowerCase().includes(`${value}`)) {
-                        this.objWithInfoAboutUsers[key] = useUserInfo().users[key];
-                    } else {
-                        delete this.objWithInfoAboutUsers[key];
-                    }
-                }
-            },
             showDialog(){
                 this.isShowDialog = true;
             },
@@ -157,6 +145,16 @@
                 this.searchUser = '';
                 this.objWithInfoAboutUsers = {};
                 this.copyObject(useUserInfo().users, this.objWithInfoAboutUsers);
+            },
+            searchUser(){
+                let value = this.searchUser.toLowerCase();
+                for(let key in useUserInfo().users){
+                    if (useUserInfo().users[key].userName.toLowerCase().includes(`${value}`)) {
+                        this.objWithInfoAboutUsers[key] = useUserInfo().users[key];
+                    } else {
+                        delete this.objWithInfoAboutUsers[key];
+                    }
+                }
             }
         },
         mounted(){

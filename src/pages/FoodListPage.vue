@@ -14,8 +14,7 @@
         </form-dialog>
         <v-row class="d-flex justify-center align-center py-3">
             <food-page-navbar
-                @setSearchFood="setSearchFood"
-                :searchFoodProp="searchFood"
+                v-model="searchFood"
                 @setSortFood="setSortFood"
                 :sortFoodProp="sortFood"
             />
@@ -68,28 +67,6 @@
             }
         },
         methods:{
-            setSearchFood(value){
-                this.searchFood = value;
-                if (value === '') {
-                    this.objWithInfoAboutFoods = {}
-                    this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
-                } else {
-                    value = value.toLowerCase();
-                    for(let key in useFoodInfo().foods){
-                        if (useFoodInfo().foods[key].foodName.toLowerCase().includes(`${value}`)) {
-                            if(Object.keys(this.objWithInfoAboutFoods).length < 10){
-                                this.objWithInfoAboutFoods[key] = useFoodInfo().foods[key];
-                            }
-                        } else {
-                            delete this.objWithInfoAboutFoods[key];
-                        }
-                        if(useFoodInfo().foods[key].foodName.toLowerCase().localeCompare(`${value}`) === 0){
-                            this.objWithInfoAboutFoods = {};
-                            this.objWithInfoAboutFoods[key] = useFoodInfo().foods[key];
-                        }
-                    }      
-                }
-            },
             setSortFood(value){
                 this.sortFood = value;
             },
@@ -177,6 +154,28 @@
                 useFoodInfo().setShowFood();
                 this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
             },
+            searchFood(){
+                let value = this.searchFood;
+                if (value === '') {
+                    this.objWithInfoAboutFoods = {}
+                    this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
+                } else {
+                    value = value.toLowerCase();
+                    for(let key in useFoodInfo().foods){
+                        if (useFoodInfo().foods[key].foodName.toLowerCase().includes(`${value}`)) {
+                            if(Object.keys(this.objWithInfoAboutFoods).length < 10){
+                                this.objWithInfoAboutFoods[key] = useFoodInfo().foods[key];
+                            }
+                        } else {
+                            delete this.objWithInfoAboutFoods[key];
+                        }
+                        if(useFoodInfo().foods[key].foodName.toLowerCase().localeCompare(`${value}`) === 0){
+                            this.objWithInfoAboutFoods = {};
+                            this.objWithInfoAboutFoods[key] = useFoodInfo().foods[key];
+                        }
+                    }      
+                }
+            },
             sortFood(){
                 let sortValue = {
                     'Калориям': 'calories',
@@ -201,8 +200,7 @@
                 setTimeout(() =>{
                     useFoodInfo().setShowFood();
                     this.copyObject(useFoodInfo().foodsForShow, this.objWithInfoAboutFoods);
-                }, 0)
-                
+                }, 0)   
             }
         },
         mounted(){

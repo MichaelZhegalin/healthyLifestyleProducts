@@ -14,8 +14,7 @@
                     <v-col>
                         <form>
                             <v-text-field 
-                                :value="searchUser" 
-                                @input="setSearchUser($event.target.value)" 
+                                v-model="searchUser"
                                 variant="underlined" 
                                 label="Поиск"
                             />
@@ -30,19 +29,17 @@
 <script>
     export default {
         props:{
-            searchUserProp: String
+            modelValue: String
         },
-        methods: {
-            setSearchUser(value){
-                this.$emit('setSearchUser', value)
-            }
-        },
-        computed: {
+        computed:{
             searchUser: {
                 get(){
-                    return this.searchUserProp
+                    return this.modelValue
+                },
+                set(value){
+                    this.$emit('update:modelValue', value)
                 }
-            }
-        },
+            },
+        }
     }
 </script>
