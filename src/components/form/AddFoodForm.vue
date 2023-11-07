@@ -3,40 +3,35 @@
         <v-row>
             <v-col cols="12">
                 <v-text-field
-                    :value="foodName"
-                    @input="setFoodName"
+                    v-model="foodInfo.foodName"
                     label="Название блюда"
                     variant="underlined"
                 />
             </v-col>
             <v-col cols="6">
                 <v-text-field
-                    :value="calories"
-                    @input="setCalories"
+                    v-model="foodInfo.calories"
                     label="Калории на 100г."
                     variant="underlined"
                 />
             </v-col>
             <v-col cols="6">
                 <v-text-field
-                    :value="proteins"
-                    @input="setProteins"
+                    v-model="foodInfo.proteins"
                     label="Белки на 100г."
                     variant="underlined"
                 />
             </v-col>
             <v-col cols="6">
                 <v-text-field
-                    :value="fats"
-                    @input="setFats"
+                    v-model="foodInfo.fats"
                     label="Жиры на 100г."
                     variant="underlined"
                 />
             </v-col>
             <v-col cols="6">
                 <v-text-field
-                    :value="carbs"
-                    @input="setCarbs"
+                    v-model="foodInfo.carbs"
                     label="Углеводы на 100г."
                     variant="underlined"
                 />
@@ -46,38 +41,9 @@
 </template>
   
 <script>
-    export default{
+    export default {
         props:{
-            foodName: String,
-            calories: String,
-            proteins: String,
-            fats: String,
-            carbs: String,
-        },
-        methods:{
-            setFoodName(event){
-                this.$emit('setFoodName', event.target.value);
-            },
-            setCalories(event){
-                if ((!!Number(event.target.value) || event.target.value === '0') && Number(event.target.value) >= 0) {
-                    this.$emit('setCalories', event.target.value);
-                } 
-            },
-            setProteins(event){
-                if ((!!Number(event.target.value) || event.target.value === '0') && Number(event.target.value) >= 0) {
-                    this.$emit('setProteins', event.target.value);
-                }  
-            },
-            setFats(event){
-                if ((!!Number(event.target.value) || event.target.value === '0') && Number(event.target.value) >= 0) {
-                    this.$emit('setFats', event.target.value);
-                }
-            },
-            setCarbs(event){
-                if ((!!Number(event.target.value) || event.target.value === '0') && Number(event.target.value) >= 0) {
-                    this.$emit('setCarbs', event.target.value);
-                }
-            }
+            foodInfo: Object,
         },
     }
 </script>

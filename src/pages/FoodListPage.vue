@@ -8,16 +8,7 @@
         >
             <template #formBody>
                 <add-food-form
-                    :foodName="foodName"
-                    :calories="calories"
-                    :proteins="proteins"
-                    :fats="fats"
-                    :carbs="carbs"
-                    @setFoodName="setFoodName"
-                    @setCalories="setCalories"
-                    @setProteins="setProteins"
-                    @setFats="setFats"
-                    @setCarbs="setCarbs"
+                    :foodInfo="foodInfo"
                 />
             </template>
         </form-dialog>
@@ -64,11 +55,13 @@
         data(){
             return{
                 isShowDialog: false,
-                foodName: '',
-                calories: '',
-                proteins: '',
-                fats: '',
-                carbs: '',
+                foodInfo: {
+                    foodName: '',
+                    calories: '',
+                    proteins: '',
+                    fats: '',
+                    carbs: '',
+                },
                 searchFood: '',
                 sortFood: null,
                 objWithInfoAboutFoods: {}
@@ -100,21 +93,6 @@
             setSortFood(value){
                 this.sortFood = value;
             },
-            setFoodName(value){
-                this.foodName = value;
-            },
-            setCalories(value){
-                this.calories = value;
-            },
-            setProteins(value){
-                this.proteins = value;
-            },
-            setFats(value){
-                this.fats = value;
-            },
-            setCarbs(value){
-                this.carbs = value;
-            },
             setShowFoodNext(){
                 useFoodInfo().setShowFoodNext();
                 this.objWithInfoAboutFoods = {};
@@ -130,35 +108,48 @@
             },
             saveDialogForm(){
                 if (
-                    this.foodName !== '' && 
-                    this.calories !== '' && 
-                    this.proteins !== '' && 
-                    this.carbs !== '' && 
-                    this.fats !== ''
+                    this.foodInfo.foodName !== '' && 
+                    this.foodInfo.calories !== '' && 
+                    this.foodInfo.proteins !== '' && 
+                    this.foodInfo.carbs !== '' && 
+                    this.foodInfo.fats !== ''
                 ) {
-                    useFoodInfo().setNewFood({
-                        foodName: this.foodName,
-                        calories: this.calories,
-                        proteins: this.proteins,
-                        fats: this.fats,
-                        carbs: this.carbs,
-                        id: Date.now()
-                    })
+                    if (
+                        !!Number(this.foodInfo.calories) && 
+                        Number(this.foodInfo.calories) >= 0 &&
+                        !!Number(this.foodInfo.proteins) && 
+                        Number(this.foodInfo.proteins) >= 0 &&
+                        !!Number(this.foodInfo.carbs) && 
+                        Number(this.foodInfo.carbs) >= 0 &&
+                        !!Number(this.foodInfo.fats) && 
+                        Number(this.foodInfo.fats) >= 0
+                    ) {
+                        useFoodInfo().setNewFood({
+                            foodName: this.foodInfo.foodName,
+                            calories: this.foodInfo.calories,
+                            proteins: this.foodInfo.proteins,
+                            fats: this.foodInfo.fats,
+                            carbs: this.foodInfo.carbs,
+                            id: Date.now()
+                        })
+                    } else {
+                        alert("Вы ввели данные неправильно! В числовые поля необходимо вводить положительные числа!")
+                    }
                 } else {
                     alert("Вы не заполнили форму!");
                 }
-                this.foodName = '';
-                this.calories = '';
-                this.proteins = '';
-                this.fats = '';
-                this.carbs = '';
+                this.foodInfo.foodName = '';
+                this.foodInfo.calories = '';
+                this.foodInfo.proteins = '';
+                this.foodInfo.fats = '';
+                this.foodInfo.carbs = '';
             },
             closeDialogForm(){
-                this.foodName = '';
-                this.calories = '';
-                this.proteins = '';
-                this.fats = '';
-                this.carbs = '';
+                this.foodInfo.foodName = '';
+                this.foodInfo.calories = '';
+                this.foodInfo.proteins = '';
+                this.foodInfo.fats = '';
+                this.foodInfo.carbs = '';
             },
             copyObject(copiedObj, finishObj){
                 for(let key in copiedObj){

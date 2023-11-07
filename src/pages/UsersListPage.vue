@@ -8,17 +8,7 @@
         >
             <template #formBody>
                 <add-user-form
-                    :userName="userName"
-                    :age="age"
-                    :height="height"
-                    :weight="weight"
-                    :genderProp="genderProp"
-                    :genderItem="genderItem"
-                    @setUserName="setUserName"
-                    @setAge="setAge"
-                    @setHeight="setHeight"
-                    @setWeight="setWeight"
-                    @setGender="setGender"
+                    :userInfo="userInfo"
                 />
             </template>
         </form-dialog>
@@ -57,21 +47,23 @@
     import { useCalculatorPFC } from '@/store/calculatorProteinsFatsCarbsModule'
 
     export default {
-        components: { UsersPageNavbar, Carousel, CardForUser, FormDialog, AddUserForm},
+        components:{ UsersPageNavbar, Carousel, CardForUser, FormDialog, AddUserForm},
         data(){
             return{
                 isShowDialog: false,
-                userName: '',
-                age: '',
-                height: '',
-                weight: '',
-                genderProp: '',
-                genderItem: ["Мужчина", "Женщина"],
                 objWithInfoAboutUsers: {},
                 searchUser: '', 
+                userInfo: {
+                    userName: '',
+                    age: '',
+                    height: '',
+                    weight: '',
+                    gender: '',
+                    genderItem: ["Мужчина", "Женщина"]
+                }
             }
         },
-        methods: {
+        methods:{
             setSearchUser(value){
                 this.searchUser = value;
                 value = value.toLowerCase();
@@ -86,69 +78,65 @@
             showDialog(){
                 this.isShowDialog = true;
             },
-            setUserName(value){
-                this.userName = value;
-            },
-            setAge(value){
-                this.age = value;
-            },
-            setHeight(value){
-                this.height = value;
-            },
-            setWeight(value){
-                this.weight = value;
-            },
-            setGender(value){
-                this.genderProp = value;
-            },
             saveDialogForm(){
                 if (
-                    this.userName !== '' &&
-                    this.weight !== '' && 
-                    this.height !== '' && 
-                    this.age !== '' &&
-                    this.genderProp !== ''
+                    this.userInfo.userName !== '' &&
+                    this.userInfo.weight !== '' && 
+                    this.userInfo.height !== '' && 
+                    this.userInfo.age !== '' &&
+                    this.userInfo.gender !== ''
                 ) {
-                    useCalculatorPFC().setCalorieCount({
-                        weight: this.weight,
-                        height: this.height,
-                        age: this.age,
-                        gender: this.genderProp
-                    })
+                    if (
+                        !!Number(this.userInfo.weight) && 
+                        Number(this.userInfo.weight) >= 0 &&
+                        !!Number(this.userInfo.height) && 
+                        Number(this.userInfo.height) >= 0 &&
+                        !!Number(this.userInfo.age) && 
+                        Number(this.userInfo.age) >= 0
+                    ) {
+                        useCalculatorPFC().setCalorieCount({
+                            weight: this.userInfo.weight,
+                            height: this.userInfo.height,
+                            age: this.userInfo.age,
+                            gender: this.userInfo.gender
+                        })
 
-                    useCalculatorPFC().adjustmentForPhysicalActivity(1.55);
+                        useCalculatorPFC().adjustmentForPhysicalActivity(1.55);
 
-                    let needCalorie = Math.floor(useCalculatorPFC().calorieWithPhysicalActivity);
-                    let needPFC = useCalculatorPFC().getPFC;
+                        let needCalorie = Math.floor(useCalculatorPFC().calorieWithPhysicalActivity);
+                        let needPFC = useCalculatorPFC().getPFC;
 
-                    useUserInfo().setNewUser({
-                        userName: this.userName,
-                        age: this.age,
-                        height: this.height,
-                        weight: this.weight,
-                        gender: this.genderProp,
-                        needCalories: needCalorie,
-                        needPFC: needPFC,
-                        id: Date.now()
-                    });
+                        useUserInfo().setNewUser({
+                            userName: this.userInfo.userName,
+                            age: this.userInfo.age,
+                            height: this.userInfo.height,
+                            weight: this.userInfo.weight,
+                            gender: this.userInfo.gender,
+                            needCalories: needCalorie,
+                            needPFC: needPFC,
+                            id: Date.now()
+                        });
 
-                    this.copyObject(useUserInfo().users, this.objWithInfoAboutUsers);
+                        this.copyObject(useUserInfo().users, this.objWithInfoAboutUsers);
+                    } else {
+                        alert("Вы ввели данные неправильно! В числовые поля необходимо вводить положительные числа!")
+                    }
                 } else {
                     alert("Вы заполнили форму не до конца!");
                 }
                 
-                this.userName = '';
-                this.age = '';
-                this.height = '';
-                this.weight = '';
-                this.setGender('');
+                this.userInfo.userName = '';
+                this.userInfo.age = '';
+                this.userInfo.height = '';
+                this.userInfo.weight = '';
+                this.userInfo.gender = '';
             },
             closeDialogForm(){
-                this.userName = '';
-                this.age = '';
-                this.height = '';
-                this.weight = '';
-                this.setGender('');
+                this.userInfo.userName = '';
+                this.userInfo.age = '';
+                this.userInfo.height = '';
+                this.userInfo.weight = '';
+                this.userInfo.gender = '';
             },
             copyObject(copiedObj, finishObj){
                 for(let key in copiedObj){
@@ -157,14 +145,14 @@
                 return finishObj
             }
         },
-        computed: {
+        computed:{
             observerOfUsers: {
                 get(){
                     return Object.keys(useUserInfo().users).length
                 }
             }
         },
-        watch: {
+        watch:{
             observerOfUsers(){
                 this.searchUser = '';
                 this.objWithInfoAboutUsers = {};
