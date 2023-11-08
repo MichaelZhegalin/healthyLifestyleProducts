@@ -51,7 +51,7 @@
             return{
                 isShowDialog: false,
                 objWithInfoAboutUsers: {},
-                searchUser: '', 
+                searchUser: null, 
                 userInfo: {
                     userName: '',
                     age: '',

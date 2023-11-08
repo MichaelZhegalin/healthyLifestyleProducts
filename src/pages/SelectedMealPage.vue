@@ -8,11 +8,7 @@
         >
             <template #formBody>
                 <add-eat-food-form
-                    :dishWeight="dishWeight"
-                    :foodNameProp="foodNameProp"
-                    :foodNames="foodNames"
-                    @setFoodName="setFoodName"
-                    @setDishWeight="setDishWeight"
+                    :eatFoodInfo="eatFoodInfo"
                 />
             </template>
         </form-dialog>
@@ -61,58 +57,56 @@
         data(){
             return{
                 title: null,
-                timesOfDay: '',
-                timesOfDayForGetters: '',
-                timesOfDayForSet: '',
+                timesOfDay: null,
+                timesOfDayForGetters: null,
+                timesOfDayForSet: null,
                 activeUser: useFoodInfo().activeUser,
                 selectedDate: useFoodInfo().selectedDate,
-                foodNameProp: '',
-                foodNames: [],
                 foodId: [],
-                dishWeight: '',
+                eatFoodInfo: {
+                    foodNames: [],
+                    foodName: '',
+                    dishWeight: ''
+                },
                 isShowDialog: false,
-                imageURL: ''
+                imageURL: null
             }
         },
         methods:{
-            setDishWeight(value){
-                this.dishWeight = value;
-            },
-            setFoodName(value){
-                this.foodNameProp = value;
-            },
             showDialog(){
                 this.isShowDialog = true;
             },
             saveDialogForm(){
                 let userSelectedFood = {};
                 let checkExistsFood = false;
-                for(let i = 0; i < this.foodNames.length; i++){
-                    if (this.foodNames[i].localeCompare(this.foodNameProp) === 0) {
+                for(let i = 0; i < this.eatFoodInfo.foodNames.length; i++){
+                    if (this.eatFoodInfo.foodNames[i].localeCompare(this.eatFoodInfo.foodName) === 0) {
                         for(let key in useFoodInfo().foods[this.foodId[i]]){
                             userSelectedFood[key] = useFoodInfo().foods[this.foodId[i]][key];
                             checkExistsFood = true;
                         }
                     }
                 }
-                if (checkExistsFood && this.dishWeight !== '') {
+                if (checkExistsFood && this.eatFoodInfo.dishWeight !== '') {
                     useFoodInfo()[this.timesOfDayForSet](
                         this.selectedDate,
                         userSelectedFood,
                         Date.now(),
-                        this.dishWeight
+                        this.eatFoodInfo.dishWeight
                     )
-                } else if (this.dishWeight !== '') {
+                } else if (this.eatFoodInfo.dishWeight !== '') {
                     alert("Выбранное блюдо не найдено");
+                } else if (!!Number(this.eatFoodInfo.dishWeight) && Number(this.eatFoodInfo.dishWeight) >= 0) {
+                    alert("Массу блюда необходимо вводить числами больше нуля!")
                 } else {
                     alert("Вы не ввели массу блюда!");
                 }
-                this.dishWeight = '';
-                this.setFoodName('');
+                this.eatFoodInfo.dishWeight = '';
+                this.eatFoodInfo.foodName = '';
             },
             closeDialogForm(){
-                this.dishWeight = '';
-                this.setFoodName('');
+                this.eatFoodInfo.dishWeight = '';
+                this.eatFoodInfo.foodName = '';
             }
         },
         mounted(){
@@ -136,14 +130,14 @@
                 this.imageURL="/src/img/dinner.jpg"
             }
             for(let key in useFoodInfo().foods){
-                this.foodNames.push(useFoodInfo().foods[key].foodName);
+                this.eatFoodInfo.foodNames.push(useFoodInfo().foods[key].foodName);
                 this.foodId.push(key);
             }
         },
         computed:{
             infoAboutEatFood:{
                 get(){
-                    if (this.timesOfDayForGetters !== '') {
+                    if (this.timesOfDayForGetters !== null) {
                         return useFoodInfo()[`${this.timesOfDayForGetters}`];
                     } else {
                         return {}

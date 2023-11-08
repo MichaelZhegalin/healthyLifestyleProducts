@@ -3,16 +3,15 @@
         <v-row class="pa-5">
             <v-autocomplete 
                 clearable
-                v-model="foodName"
-                :items="foodNames" 
+                v-model="eatFoodInfo.foodName"
+                :items="eatFoodInfo.foodNames" 
                 label="Выберите блюдо, которое вы ели"
                 variant="underlined"
             />
         </v-row>
         <v-row class="pa-5">
             <v-text-field
-                :value="dishWeight"
-                @input="setDishWeight"
+                v-model="eatFoodInfo.dishWeight"
                 label="Сколько грамм вы съели"
                 variant="underlined"
             />
@@ -23,9 +22,7 @@
 <script>
     export default {
         props:{
-            dishWeight: String,
-            foodNameProp: String,
-            foodNames: Array
+            eatFoodInfo: Object
         },
         methods:{
             setDishWeight(event){
@@ -35,16 +32,6 @@
             },
             setFoodName(event){
                 this.$emit('setFoodName', event.target.value);
-            }
-        },
-        computed:{
-            foodName: {
-                get(){
-                    return this.foodNameProp
-                },
-                set(value){
-                    return this.$emit('setFoodName', value)
-                }
             }
         }
     }

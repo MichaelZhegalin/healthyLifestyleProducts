@@ -61,7 +61,7 @@
                     fats: '',
                     carbs: '',
                 },
-                searchFood: '',
+                searchFood: null,
                 sortFood: null,
                 objWithInfoAboutFoods: {}
             }
