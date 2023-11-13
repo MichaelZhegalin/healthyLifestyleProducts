@@ -5,11 +5,11 @@ import { UserConstructor } from "./constructors/userConstructor"
 export const useUserInfo = defineStore('userInfoModule', {
     state: () => ({
         users: JSON.parse(localStorage.getItem('users')) ?? {},
-        activeUserId: '',
+        activeUserId: null,
     }),
     actions: {
         saveToLocalStorage(){
-            if (this.activeUserId !== '') {
+            if (this.activeUserId !== null) {
                 this.users[this.activeUserId].isActive = false;
                 localStorage.setItem('users', JSON.stringify(this.users));
                 this.users[this.activeUserId].isActive = true;
@@ -65,7 +65,7 @@ export const useUserInfo = defineStore('userInfoModule', {
         },
         deleteUser(id){
             if (this.activeUserId === id) {
-                this.activeUserId = '';
+                this.activeUserId = null;
             }
             delete this.users[id];
             this.saveToLocalStorage();

@@ -1,14 +1,14 @@
 import { defineStore } from "pinia";
 import { useUserInfo } from "./userInfoModule";
 import { useCalculatorPFC } from "./calculatorProteinsFatsCarbsModule";
-import { FoodConstuctor } from "./constructors/foorConstructor"
+import { FoodConstuctor } from "./constructors/foodConstructor"
 import food_base from "@/data/food_base"
 
 export const useFoodInfo = defineStore('foodInfo', {
     state: () => ({
         isNormalizeData: localStorage.getItem('isNormalizeData') ?? false,
-        activeUser: '',
-        selectedDate: '',
+        activeUser: null,
+        selectedDate: null,
         foods: JSON.parse(localStorage.getItem('foods')) ?? {},
         foodsForShow: {},
         eatFoodInfo: JSON.parse(localStorage.getItem('eatFoodInfo')) ?? {},

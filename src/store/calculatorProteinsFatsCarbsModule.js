@@ -4,10 +4,10 @@ export const useCalculatorPFC = defineStore('calculatorProteinsFatsCabs', {
     state: () => ({
         calorie: 0,
         calorieWithPhysicalActivity: 0,
-        realFoodCalorie: '',
-        realFoodProteins: '',
-        realFoodFats: '',
-        realFoodCarbs: '',
+        realFoodCalorie: null,
+        realFoodProteins: null,
+        realFoodFats: null,
+        realFoodCarbs: null,
     }),
     getters: {
         getPFC(){
