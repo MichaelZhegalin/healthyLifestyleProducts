@@ -1,5 +1,10 @@
 <template>
-    <v-card class="mx-auto d-flex flex-column" max-width="344" min-width="200" height="400">
+    <v-card 
+        class="mx-auto d-flex flex-column" 
+        max-width="344" 
+        min-width="200" 
+        height="400"
+    >
         <v-img
             :src="imageURL"
             class="align-end"

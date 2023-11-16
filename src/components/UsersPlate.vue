@@ -1,5 +1,5 @@
 <template>
-    <v-btn class="plate__btns-position">{{ title }}</v-btn>
+    <v-btn class="plate__btns-position" @click="$router.push('/')">{{ title }}</v-btn>
 </template>
 
 <script>

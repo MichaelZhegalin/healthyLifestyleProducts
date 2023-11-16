@@ -1,5 +1,9 @@
 <template>
-    <v-card class="mx-auto" max-width="1050" min-width="350">
+    <v-card 
+        class="mx-auto" 
+        max-width="1050" 
+        min-width="350"
+    >
         <v-container>
             <v-row>
                 <v-col cols="3" class="d-flex justify-start align-center">

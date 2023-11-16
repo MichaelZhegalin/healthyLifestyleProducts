@@ -12,7 +12,7 @@
                             class="text-white bg-green-lighten-2" 
                             @click="saveDialogForm"
                             block
-                            v-if="btnVisible !== false"
+                            v-if="btnVisible"
                         >
                             Сохранить
                         </v-btn>
