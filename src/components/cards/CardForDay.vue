@@ -1,5 +1,9 @@
 <template>
-    <v-card class="mx-auto" max-width="344" min-width="250">
+    <v-card 
+        class="mx-auto" 
+        max-width="344" 
+        min-width="250"
+    >
         <v-img
             :src="imageURL"
             class="align-end"
